@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 NAME_LENGTH = 32
 TITLE_LENGTH = 45
 DESCRIPTION_LENGTH = 1000
