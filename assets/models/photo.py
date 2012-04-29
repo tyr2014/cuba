@@ -11,3 +11,7 @@ class Photo(models.Model):
   url = models.URLField(_('照片位置'), max_length=const.URL_LENGTH, help_text=_(''))
   description = models.CharField(_('照片描述'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True)
   activity = models.ForeignKey(Activity)
+
+  class Meta:
+    app_label = 'assets'
+    db_table = 'cuba_photo'

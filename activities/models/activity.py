@@ -38,5 +38,5 @@ class Activity(models.Model):
 
   class Meta:
     app_label = 'activities'
-    db_table = 'activity'
+    db_table = 'cuba_activity'
 

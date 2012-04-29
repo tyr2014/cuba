@@ -7,5 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 class Country(models.Model):
   name = models.CharField(_('名称'), max_length=const.NAME_LENGTH, help_text=_('国家名称'))
 
+  class Meta:
+    app_label = 'places'
+    db_table = 'cuba_country'
+
 class City(models.Model):
   name = models.CharField(_('名称'), max_length=const.NAME_LENGTH, help_text=_('城市名称'))
+
+  class Meta:
+    app_label = 'places'
+    db_table = 'cuba_city'
