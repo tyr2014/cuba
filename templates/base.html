@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %}_途客圈_tukeQ</title>
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap-responsive.css" />
+    {% block css %} {% endblock %}
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5.js"></script>
+    <![endif]-->
+
+    <link rel="icon" href="/static/img/common/logo-icon.gif" type="image/x-icon" />
+    <link rel="shortcut-icon" href="/static/img/common/logo-icon.gif" type="image/x-icon" />
+
+  </head>
+  <body>
+    {% include "common/component/nav.html" %}
+
+    <div class="container">
+
+      ｛% block container %} {% endblock %}
+
+    </div><!-- /container -->
+    {% include "common/component/footer.html" %}
+
+    <!-- put js at the bottom of the file -->
+    <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/underscore-min.js"></script>
+    <script type="text/javascript" src="/static/js/underscore.string.min.js"></script>
+    <script type="text/javascript" src="/static/js/backbone-min.js"></script>
+
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+
+    {% block script %}{% endblock %}
+
+  </body>
+</html>

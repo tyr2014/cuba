@@ -5,9 +5,13 @@ from django.contrib.auth.models import User
 from django.db import models
 from core import const
 from places.models import City
-from django.utils.translation import ugettext_lazy as _
+from core.alias import tran_lazy as _
 
 class Activity(models.Model):
+  class Meta:
+    app_label = 'activities'
+    db_table = 'cuba_activity'
+
   # basic description
   title = models.CharField(_('活动名称'), max_length=const.TITLE_LENGTH, help_text=_('活动名称可以用来查找你的活动'))
   description = models.CharField(_('描述'), max_length=const.DESCRIPTION_LENGTH, help_text=_('详细描述'))
@@ -15,7 +19,7 @@ class Activity(models.Model):
   category = models.IntegerField(_('类型'), help_text=_(''))
   provided = models.CharField(_('你将提供什么?'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True)
   required = models.CharField(_('参加者需要什么准备?'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True)
-  more_info = models.TextField(_('其他信息'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''))
+  more_info = models.TextField(_('其他信息'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True)
   
   # photo/video is store in a separated table.
 
@@ -36,7 +40,4 @@ class Activity(models.Model):
   author = models.ForeignKey(User)
   city = models.ForeignKey(City)
 
-  class Meta:
-    app_label = 'activities'
-    db_table = 'cuba_activity'
 

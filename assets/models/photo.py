@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from core import const
 from activities.models.activity import Activity
-from django.utils.translation import ugettext_lazy as _
+from core.alias import tran_lazy as _
 
 class Photo(models.Model):
   title = models.CharField(_('照片名称'), max_length=const.TITLE_LENGTH, help_text=_(''), blank=True)
