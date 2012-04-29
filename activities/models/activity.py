@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 from django.db import models
 from core import const
+from places.models import City
+from django.utils.translation import ugettext_lazy as _
 
 class Activity(models.Model):
   # basic description
@@ -23,12 +26,17 @@ class Activity(models.Model):
   # pricing
   cost = models.IntegerField(_('你想为该活动收取多少费用?'), help_text=_(''))
   # first 16 bits for min, last 16 bits for max
-  participants = models.IntegerField(_('你能为多少客户提供服务?'), help_text_(''))
+  participants = models.IntegerField(_('你能为多少客户提供服务?'), help_text=_(''))
   cancel_policy = models.CharField(_('取消政策'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''))
 
   # meeting info
 
 
   # management info
-  author = models.ForeignKey()
-  city = 
+  author = models.ForeignKey(User)
+  city = models.ForeignKey(City)
+
+  class Meta:
+    app_label = 'activities'
+    db_table = 'activity'
+

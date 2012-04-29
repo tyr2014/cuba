@@ -3,6 +3,7 @@
 *.directory
 *.pyc
 *.rdb
+*.db
 *.swo
 *.swp
 *~
