@@ -13,6 +13,7 @@
 .scrapy
 .svn
 coverage
+/static/*
 /default
 /log/
 /logs/
