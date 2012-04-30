@@ -1,0 +1,15 @@
+<a data-toggle="dropdown" class="dropdown-toggle" href="{{ url }}">
+  {{ title }}
+  {% if items|length > 0 %}<b class="caret"></b>{% endif %}
+</a>
+<ul class="dropdown-menu">
+  {% for item in items %}
+    {% if item.0 == '-' %}
+      {% if forloop.counter != 1 and forloop.counter != forloop.last %}
+        <li class="divider"></li>
+      {% endif %}
+    {% else %}
+      <li><a href="{{ item.1 }}">{{ item.0 }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
