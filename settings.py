@@ -153,7 +153,7 @@ INSTALLED_APPS = (
   'debug_toolbar',        # for debug purpose
 )
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+AUTH_PROFILE_MODULE = 'cuba.UserProfile'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
