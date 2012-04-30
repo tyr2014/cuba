@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 from cuba.models.mixins.locatable import Locatable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
-from cuba.models.places import City
+
+import logging
+logger = logging.getLogger(__name__)
 
 class UserProfile(Locatable):
   class Meta:

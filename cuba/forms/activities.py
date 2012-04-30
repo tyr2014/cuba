@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.forms import ModelForm, Textarea, CheckboxSelectMultiple
+from cuba.utils.alias import tran as _
+from django.forms import Textarea, CheckboxSelectMultiple
 from cuba.fields.widgets import DateTimeWidget, AutocompleteWidget
 from cuba.models.activities import Activity
-from bootstrap.forms import Fieldset, BootstrapMixin
+from bootstrap.forms import Fieldset, BootstrapModelForm
 
-TEXTAREA_ATTR = {'cols':80, 'rows': 20}
+TEXTAREA_ATTR = {'cols':160, 'rows': 10}
 
-class ActivityDescriptionForm(ModelForm, BootstrapMixin):
+class ActivityDescriptionForm(BootstrapModelForm):
   class Meta:
     model = Activity
     fields = ('title', 'description', 'physical_level', 'category', 'provided', 'required', 'more_info')
@@ -26,10 +27,10 @@ class ActivityDescriptionForm(ModelForm, BootstrapMixin):
       Fieldset(_('其他信息'), 'more_info')
     )
 
-class ActivityAvailabilityForm(ModelForm, BootstrapMixin):
+class ActivityAvailabilityForm(BootstrapModelForm):
   class Meta:
     model = Activity
-    fields = ('start', 'end', 'market_cost', 'cost', 'cost_description' 'min_participants', 'max_participants',
+    fields = ('start', 'end', 'market_cost', 'cost', 'cost_description', 'min_participants', 'max_participants',
               'city', 'address', 'map', 'cancel_policy')
     widgets = {
       'start': DateTimeWidget(),
@@ -44,7 +45,7 @@ class ActivityAvailabilityForm(ModelForm, BootstrapMixin):
       Fieldset(_('退款政策'), 'cancel_policy'),
     )
 
-class ActivityPublishForm(ModelForm, BootstrapMixin):
+class ActivityPublishForm(BootstrapModelForm):
   class Meta:
     model = Activity
     fields = ('status', 'publish_date', 'expiry_date')

@@ -10,6 +10,10 @@ from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
 from cuba.utils.alias import tran_lazy as _
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   class Meta:
     app_label = 'cuba'

@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Create your models here.
+from __future__ import unicode_literals
+import logging
+logger = logging.getLogger(__name__)
+

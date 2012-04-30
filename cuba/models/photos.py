@@ -7,6 +7,9 @@ from cuba.utils import const
 from cuba.models.activities import Activity
 from cuba.utils.alias import tran_lazy as _
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Photo(Ownable):
   class Meta:
     app_label = 'cuba'

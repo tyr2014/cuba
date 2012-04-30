@@ -2,8 +2,7 @@
 
 from __future__ import unicode_literals
 
-from django.db.models import Manager, Q, CharField, TextField, get_models
-from django.db.models.query import QuerySet
+from django.db.models import Manager, Q
 from django.utils.datetime_safe import datetime
 
 import logging

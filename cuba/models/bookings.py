@@ -8,6 +8,8 @@ from cuba.models.mixins.ownable import Ownable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Booking(Ownable, CacheableMixin):
   class Meta:

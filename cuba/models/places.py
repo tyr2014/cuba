@@ -4,6 +4,9 @@ from django.db import models
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Country(models.Model):
   class Meta:
     app_label = 'cuba'

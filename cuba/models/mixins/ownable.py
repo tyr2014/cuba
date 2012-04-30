@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 from cuba.utils.alias import tran_lazy as _
-from django.utils.datetime_safe import datetime
 from django.contrib.auth.models import User
 
 import logging
