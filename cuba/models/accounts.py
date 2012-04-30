@@ -8,6 +8,7 @@ from cuba.models.mixins.locatable import Locatable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -52,3 +53,10 @@ class UserSnsInfo(models.Model):
 
   def __unicode__(self):
     return '%s:%s' % (self.vendor_name, self.sns_id)
+
+
+#def create_user_profile(sender, instance, created, **kwargs):
+#  if created:
+#    UserProfile.objects.create(user=instance)
+#
+#post_save.connect(create_user_profile, sender=User)

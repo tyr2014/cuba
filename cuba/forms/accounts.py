@@ -33,4 +33,12 @@ class UserCreateForm(BootstrapModelForm):
     p2 = self.data['password2']
     if p1 != p2:
       raise forms.ValidationError(_('两次输入的密码不匹配'))
+
     return p1
+
+  def save(self, commit=True):
+    user = super(UserCreateForm, self).save(commit=False)
+    user.set_password(self.cleaned_data["password"])
+    if commit:
+      user.save()
+    return user
