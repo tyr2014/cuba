@@ -7,9 +7,7 @@ from cuba.models.mixins.cacheable import CacheableMixin
 from cuba.models.mixins.displayable import Displayable
 from cuba.models.mixins.locatable import Locatable
 from cuba.models.mixins.ownable import Ownable
-from cuba.models.photos import Photo
 from cuba.utils import const
-from cuba.models.places import City
 from cuba.utils.alias import tran_lazy as _
 
 class Activity(Displayable, Ownable, Locatable, CacheableMixin):
@@ -52,8 +50,9 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                               help_text=_(''),
                               default= 'CNY')
 
-  market_cost = models.DecimalField(_('该类活动的市场价格是多少?'),
-                                    help_text=_(''))
+  market_cost = models.IntegerField(_('该类活动的市场价格是多少?'),
+                                    help_text=_(''),
+                                    blank=True, default=0)
 
   cost = models.IntegerField(_('你将如何收费?'),
                              help_text=_(''))
@@ -76,8 +75,9 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                                    default=1)
 
   # map info
-  map = models.ForeignKey(Photo, verbose_name=_('地图'),
-                          help_text=_('添加地图有助于别人更好地了解这次活动'))
+  map = models.ForeignKey('Photo', verbose_name=_('地图'), related_name='activity_with_map_set',
+                          help_text=_('添加地图有助于别人更好地了解这次活动'),
+                          blank=True, null=True)
 
   # management info
 
