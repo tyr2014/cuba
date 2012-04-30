@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import urlparse
 from cuba.utils.alias import tran as _
 from django.core.urlresolvers import reverse
 from django.http import QueryDict
 
 import logging
 logger = logging.getLogger(__name__)
+
+def get_full_path(value, with_query=False):
+  url = urlparse.urlsplit(value)
+  if with_query:
+    return urlparse.urlunsplit((0, 0, url[2], url[3], url[4]))
+  else:
+    return urlparse.urlunsplit((0, 0, url[2], 0, 0))
 
 def get_url_by_conf(conf, args=[], params={}):
   if params:
