@@ -39,11 +39,11 @@ class LocatableManager(Manager):
     """
     from cuba.models.places import City, Country
     if isinstance(place, City):
-      return self.filter(Q(city=place.pk))
+      return self.filter(Q(city_id=place.pk))
     elif isinstance(place, Country):
-      return self.filter(Q(country=place.pk))
+      return self.filter(Q(country_id=place.pk))
     elif isinstance(place, int):
-      return self.filter(Q(city=place))
+      return self.filter(Q(city_id=place))
     elif isinstance(place, basestring):
       return self.filter(Q(city__name=place))
     else:

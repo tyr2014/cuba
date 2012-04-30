@@ -1,6 +1,5 @@
 *-min.js
 *.bak
-*.directory
 *.pyc
 *.rdb
 *.db
@@ -10,6 +9,7 @@
 .directory
 .DS_Store
 .idea/
+cuba/migrations/*
 .scrapy
 .svn
 coverage

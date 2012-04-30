@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from cuba.models.managers.core import LocatableManager
 from cuba.models.places import City, Country
 from cuba.utils import const
 from cuba.utils.alias import tran_lazy as _
@@ -32,9 +33,4 @@ class Locatable(models.Model):
                              max_length=const.ADDRESS_LENGTH,
                              blank=True, null=True)
 
-
-  def is_editable(self, request):
-    """
-    Restrict editing to the objects's owner and superusers.
-    """
-    return request.user.is_superuser or request.user.id == self.user_id
+  objects = LocatableManager()

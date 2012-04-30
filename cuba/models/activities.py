@@ -38,3 +38,6 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   cancel_policy = models.CharField(_('取消政策'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''))
 
   # management info
+
+  def __unicode__(self):
+    return self.title

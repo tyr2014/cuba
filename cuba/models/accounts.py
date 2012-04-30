@@ -32,6 +32,9 @@ class UserProfile(Locatable):
   occupation = models.CharField(_('职业'), max_length=4, choices=const.USER_OCCUPATION_CHOICES, help_text=_(''), blank=True, default='')
   education = models.CharField(_('受教育程度'), max_length=2, choices=const.USER_EDUCATION_CHOICES, help_text=_(''), blank=True, default='')
 
+  def __unicode__(self):
+    return self.fullname
+
 class UserSnsInfo(models.Model):
   class Meta:
     app_label = 'cuba'
@@ -44,3 +47,6 @@ class UserSnsInfo(models.Model):
   vendor_name = models.CharField(_('SNS名称'), max_length=const.NAME_LENGTH, help_text=_(''))
   sns_id = models.CharField(_('SNS ID'), max_length=const.NAME_LENGTH, help_text=_(''))
   binding_info = models.CharField(_('绑定信息'), max_length=const.TEXT_LENGTH, help_text=_(''), blank=True)
+
+  def __unicode__(self):
+    return '%s:%s' % (self.vendor_name, self.sns_id)

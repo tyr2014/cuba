@@ -15,8 +15,8 @@ TEXT_LENGTH = 8192
 
 # choices
 USER_GENDER_CHOICES = (
-  ('M', _('男士')),
-  ('F', _('女士')),
+  ('M', _('男')),
+  ('F', _('女')),
 )
 
 USER_OCCUPATION_CHOICES = (

@@ -21,15 +21,31 @@ class Booking(Ownable, CacheableMixin):
   total_payment = models.IntegerField(_('应付金额'), help_text=_(''))
   actual_payment = models.IntegerField(_('实付金额'), help_text=_(''))
 
+  def __unicode__(self):
+    return '%s:%s' % (self.activity_id, self.pk)
 
-class BookingParticipants(models.Model):
+class BookingParticipant(models.Model):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_booking_participants'
 
   booking = models.ForeignKey(Booking)
-  name = models.CharField(_('姓名'), max_length=const.NAME_LENGTH, help_text=_(''))
-  email = models.CharField(_('电子邮件'), max_length=const.EMAIL_LENGTH, help_text=_(''))
-  country_code = models.CharField(_('国家'), max_length=6, choices=const.USER_COUNTRY_CODE_CHOICES, help_text=_(''), default='+86')
-  cell_phone = models.CharField(_('手机号码'), max_length=11, help_text=_(''), blank=True)
-  user = models.ForeignKey(User, blank=True)
+  name = models.CharField(_('姓名'), max_length=const.NAME_LENGTH,
+                          help_text=_(''),
+                          blank=True, null=True)
+  
+  email = models.CharField(_('电子邮件'), max_length=const.EMAIL_LENGTH,
+                           help_text=_(''),
+                           blank=True, null=True)
+
+  country_code = models.CharField(_('国家'), max_length=6,
+                                  choices=const.USER_COUNTRY_CODE_CHOICES,
+                                  help_text=_(''), default='+86')
+
+  cell_phone = models.CharField(_('手机号码'), max_length=11,
+                                help_text=_(''), blank=True, null=True)
+
+  user = models.ForeignKey(User, blank=True, null=True)
+
+  def __unicode__(self):
+    return '%s:%s' % (self.booking_id, self.pk)
