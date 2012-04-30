@@ -33,7 +33,7 @@ class BookingParticipant(models.Model):
   name = models.CharField(_('姓名'), max_length=const.NAME_LENGTH,
                           help_text=_(''),
                           blank=True, null=True)
-  
+
   email = models.CharField(_('电子邮件'), max_length=const.EMAIL_LENGTH,
                            help_text=_(''),
                            blank=True, null=True)

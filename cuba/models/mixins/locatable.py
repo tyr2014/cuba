@@ -7,8 +7,6 @@ from cuba.models.managers.core import LocatableManager
 from cuba.models.places import City, Country
 from cuba.utils import const
 from cuba.utils.alias import tran_lazy as _
-from django.utils.datetime_safe import datetime
-from django.contrib.auth.models import User
 
 import logging
 logger = logging.getLogger(__name__)
