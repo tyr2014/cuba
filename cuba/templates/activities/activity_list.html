@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  <h2>{% trans '活动列表' %}</h2>
+  <ul>
+    {% for activity in object_list %}
+      <li><a href="{% url activity_detail activity.pk %}">{{ activity.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

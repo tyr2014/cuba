@@ -199,3 +199,5 @@ DEBUG_TOOLBAR_PANELS = (
 )
 
 USE_SOUTH = True
+
+LOGIN_URL = '/login/'

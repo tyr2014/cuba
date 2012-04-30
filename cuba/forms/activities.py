@@ -2,19 +2,19 @@
 
 from __future__ import unicode_literals
 from cuba.utils.alias import tran as _
-from django.forms import Textarea, CheckboxSelectMultiple
+from django.forms import Textarea, CheckboxSelectMultiple, SelectMultiple
 from cuba.fields.widgets import DateTimeWidget, AutocompleteWidget
 from cuba.models.activities import Activity
 from bootstrap.forms import Fieldset, BootstrapModelForm
 
-TEXTAREA_ATTR = {'cols':160, 'rows': 10}
+TEXTAREA_ATTR = {'style':'width:800px;height:250px'}
 
 class ActivityDescriptionForm(BootstrapModelForm):
   class Meta:
     model = Activity
     fields = ('title', 'description', 'physical_level', 'category', 'provided', 'required', 'more_info')
     widgets = {
-      'category': CheckboxSelectMultiple(),
+#      'category': SelectMultiple(),
       'description': Textarea(attrs=TEXTAREA_ATTR),
       'provided': Textarea(attrs=TEXTAREA_ATTR),
       'required': Textarea(attrs=TEXTAREA_ATTR),
@@ -35,6 +35,7 @@ class ActivityAvailabilityForm(BootstrapModelForm):
     widgets = {
       'start': DateTimeWidget(),
       'end': DateTimeWidget(),
+      'cost_description': Textarea(attrs=TEXTAREA_ATTR),
       'city': AutocompleteWidget(),
     }
     layout = (

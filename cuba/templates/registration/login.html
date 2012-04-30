@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  <form action="" method="post" class="form-horizontal">{% csrf_token %}
+    {{ form }}
+    <input type="submit" value="{% trans "登录" %}"/>
+  </form>
+{% endblock %}

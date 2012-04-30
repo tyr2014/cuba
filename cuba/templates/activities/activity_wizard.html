@@ -2,8 +2,8 @@
 {% load i18n %}
 {% block content %}
   <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-  <form action="" method="post">{% csrf_token %}
-    <table>
+  <form action="" method="post" class="form-horizontal">{% csrf_token %}
+    <div>
       {{ wizard.management_form }}
       {% if wizard.form.forms %}
         {{ wizard.form.management_form }}
@@ -13,10 +13,10 @@
       {% else %}
         {{ wizard.form }}
       {% endif %}
-    </table>
+    </div>
     {% if wizard.steps.prev %}
-      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
-      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "返回第一步" %}</button>
+      <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "返回上一步" %}</button>
     {% endif %}
     <input type="submit" value="{% trans "保存" %}"/>
   </form>
