@@ -129,19 +129,14 @@ INSTALLED_APPS = (
   'django.contrib.admin',
   # Uncomment the next line to enable admin documentation:
   # 'django.contrib.admindocs',
-  'accounts',
-  'activities',
-  'assets',
-  'bookings',
-  'places',
-  'statistics',
-  'surveys',
-  'templatings',
+
+  'cuba',
 
   # other modules
-  #'south',
-  'bootstrap',
-  'debug_toolbar',
+  'south',
+  'bootstrap',            # for display
+  'djangorestframework',  # for generating api
+  'debug_toolbar',        # for debug purpose
 )
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
@@ -188,3 +183,5 @@ DEBUG_TOOLBAR_PANELS = (
   'debug_toolbar.panels.signals.SignalDebugPanel',
   'debug_toolbar.panels.logger.LoggingPanel',
 )
+
+USE_SOUTH = True

@@ -11,8 +11,8 @@ urlpatterns = patterns('',
   (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': STATIC_ROOT, 'show_indexes': True}),
   url(r'^$', TemplateView.as_view(template_name='index.html'), name='front_page'),
 
-  (r'^account/', include('accounts.urls')),
-  (r'^activity/', include('activities.urls')),
+  (r'^account/', include('cuba.urls.accounts')),
+  (r'^activity/', include('cuba.urls.activities')),
 
 
   # Examples:

@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
+
+from django.db import models
+from cuba.models.places import City, Country
+from cuba.utils import const
+from cuba.utils.alias import tran_lazy as _
+from django.utils.datetime_safe import datetime
+from django.contrib.auth.models import User
+
+import logging
+logger = logging.getLogger(__name__)
+
+class Locatable(models.Model):
+  """
+  Abstract model that provides location for an object.
+  """
+
+  class Meta:
+    abstract = True
+
+  city = models.ForeignKey(City, verbose_name=_('所在城市'),
+                           related_name='%(class)ss',
+                           blank=True, null=True)
+
+  country = models.ForeignKey(Country, verbose_name=_('所在国家'),
+                              related_name='%(class)ss',
+                              blank=True, null=True)
+
+  address = models.CharField(_('地址'),
+                             max_length=const.ADDRESS_LENGTH,
+                             blank=True, null=True)
+
+
+  def is_editable(self, request):
+    """
+    Restrict editing to the objects's owner and superusers.
+    """
+    return request.user.is_superuser or request.user.id == self.user_id
