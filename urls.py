@@ -16,6 +16,7 @@ urlpatterns = patterns('',
   url(r'^signup/$', UserCreateView.as_view()),
   (r'^account/', include('cuba.urls.accounts')),
   (r'^activity/', include('cuba.urls.activities')),
+  (r'^order/', include('cuba.urls.orders')),
 
 
   # Examples:

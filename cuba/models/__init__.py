@@ -1,6 +1,6 @@
 from activities import Activity
 from accounts import UserProfile, UserSnsInfo
-from bookings import Booking, BookingParticipant
+from orders import Order, OrderParticipant
 from photos import Photo
 from videos import Video
 from places import City, Country
@@ -10,8 +10,8 @@ __all__ = [
   Activity,
   UserProfile,
   UserSnsInfo,
-  Booking,
-  BookingParticipant,
+  Order,
+  OrderParticipant,
   Photo,
   Video,
   City,

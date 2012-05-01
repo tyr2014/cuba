@@ -12,10 +12,10 @@ from cuba.utils import const
 import logging
 logger = logging.getLogger(__name__)
 
-class Booking(Ownable, Expirable, CacheableMixin):
+class Order(Ownable, Expirable, CacheableMixin):
   class Meta:
     app_label = 'cuba'
-    db_table = 'cuba_booking'
+    db_table = 'cuba_order'
 
   activity = models.ForeignKey(Activity)
 
@@ -32,12 +32,12 @@ class Booking(Ownable, Expirable, CacheableMixin):
   def order_number(self):
     return 'A-%05d-%05d' % (self.activity_id, self.pk)
 
-class BookingParticipant(models.Model):
+class OrderParticipant(models.Model):
   class Meta:
     app_label = 'cuba'
-    db_table = 'cuba_booking_participants'
+    db_table = 'cuba_order_participants'
 
-  booking = models.ForeignKey(Booking)
+  order = models.ForeignKey(Order)
   name = models.CharField(_('姓名'), max_length=const.NAME_LENGTH,
                           help_text=_(''),
                           blank=True, null=True)
@@ -56,4 +56,4 @@ class BookingParticipant(models.Model):
   user = models.ForeignKey(User, blank=True, null=True)
 
   def __unicode__(self):
-    return '%s:%s' % (self.booking_id, self.pk)
+    return '%s:%s' % (self.order_id, self.pk)

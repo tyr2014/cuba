@@ -31,6 +31,9 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                                             help_text=(_('1-5')),
                                             default=1)
 
+  # TODO: consider 风景指数，风景类型（有山有水）, etc.
+
+
   category = models.IntegerField(_('类型'), choices=const.ACTIVITY_CATEGORY_CHOICES,
                                  help_text=_(''))
 
@@ -60,8 +63,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                               default= 'CNY')
 
   market_cost = models.IntegerField(_('该类活动的市场价格是多少?'),
-                                    help_text=_(''),
-                                    blank=True, default=0)
+                                    help_text=_(''))
 
   cost = models.IntegerField(_('你将如何收费?'),
                              help_text=_(''))
@@ -72,8 +74,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
 
   # first 16 bits for min, last 16 bits for max
   min_participants = models.IntegerField(_('人数下限'),
-                                         help_text=_(''),
-                                         default=1)
+                                         help_text=_(''))
 
   max_participants = models.IntegerField(_('人数上限'),
                                          help_text=_(''))

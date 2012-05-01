@@ -9,7 +9,7 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 import logging
 from django.views.generic.detail import DetailView
 from cuba.models.activities import Activity
-from cuba.models.bookings import Booking
+from cuba.models.orders import Order
 from cuba.utils.helper import get_url_by_conf
 
 logger = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ class ActivityDetailView(DetailView):
   def get_context_data(self, **kwargs):
     context = super(ActivityDetailView, self).get_context_data(**kwargs)
     activity = context['activity']
-    context['bookings'] = activity.booking_set.all()
+    context['orders'] = activity.order_set.all()
     context['author'] = activity.author
     context['profile'] = activity.author.get_profile()
     return context

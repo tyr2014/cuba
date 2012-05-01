@@ -32,6 +32,10 @@ class UserProfile(Locatable):
   bio  = models.CharField(_('个人简介'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True, default='')
   languages = models.CharField(_('语言'), max_length=const.DESCRIPTION_LENGTH, help_text=_(''), blank=True, default='')
 
+  philosophy = models.CharField(_('旅行哲学'), max_length=const.DESCRIPTION_LENGTH,
+                                help_text=_(''),
+                                blank=True, default='')
+
   country_code = models.CharField(_('国家'), max_length=6, choices=const.USER_COUNTRY_CODE_CHOICES, help_text=_(''), default='+86')
   cell_phone = models.CharField(_('手机号码'), max_length=11, help_text=_(''), blank=True, default='')
   occupation = models.CharField(_('职业'), max_length=4, choices=const.USER_OCCUPATION_CHOICES, help_text=_(''), blank=True, default='')

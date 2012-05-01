@@ -8,15 +8,13 @@ from django.views.generic.edit import CreateView
 from cuba.forms.accounts import UserCreateForm
 
 import logging
-from cuba.models.accounts import UserProfile
+
 
 logger = logging.getLogger(__name__)
 
-class UserCreateView(CreateView):
-  from django.conf import settings
+class OrderCreateView(CreateView):
   form_class = UserCreateForm
-  template_name = 'accounts/user_create.html'
-  success_url = settings.LOGIN_URL
+  template_name = 'orders/order_create.html'
 
 #  def get_success_url(self):
 #    return get_referer_url(self.request)

@@ -34,6 +34,7 @@ USER_EDUCATION_CHOICES = (
 ACTIVITY_PHYSICAL_LEVEL_CHOICES = (
   (1, _('轻松休闲')),
 )
+
 ACTIVITY_CATEGORY_CHOICES = (
   (1, _('文化')),
   (2, _('娱乐')),
