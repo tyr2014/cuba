@@ -2,34 +2,43 @@
 
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
 
 from django.views.generic.edit import CreateView
-from cuba.forms.accounts import UserCreateForm
 
 import logging
+from cuba.forms.orders import OrderCreateForm
+from cuba.models.activities import Activity
+from cuba.models.orders import Order
+from cuba.utils.helper import get_url_by_conf
 
 
 logger = logging.getLogger(__name__)
 
 class OrderCreateView(CreateView):
-  form_class = UserCreateForm
+  form_class = OrderCreateForm
   template_name = 'orders/order_create.html'
 
-#  def get_success_url(self):
-#    return get_referer_url(self.request)
+  def get(self, request, *args, **kwargs):
+    raise NotImplemented
 
-class UserDetailView(DetailView):
-  template_name = 'accounts/user_detail.html'
-  model = User
-  context_object_name = 'user'
+  def post(self, request, pk, *args, **kwargs):
+    activity = get_object_or_404(Activity, pk=pk)
+    p = request.user.get_profile()
+    order = p.create_order(activity)
+    return HttpResponseRedirect(get_url_by_conf('order_detail', args=[order.pk]))
+
+class OrderDetailView(DetailView):
+  template_name = 'orders/order_detail.html'
+  model = Order
+  context_object_name = 'order'
 
   def get_context_data(self, **kwargs):
-    context = super(UserDetailView, self).get_context_data(**kwargs)
-    user = context['user']
-    profile = user.get_profile()
-    context['profile'] = profile
-    context['activities'] = user.activity_set.all()
-    context['orders'] = user.order_set.all()
+    context = super(OrderDetailView, self).get_context_data(**kwargs)
+    order = context['order']
+    context['activity'] = order.activity
+    context['order_participants'] = order.orderparticipant_set.all()
 
     return context

@@ -54,3 +54,10 @@ class LocatableManager(Manager):
       return self.filter(Q(city__name=place))
     else:
       raise ValueError
+
+class OrderManager(ExpirableManager):
+  def activity(self, activity_id):
+    return self.active().filter(activity_id=activity_id)
+
+  def ordered(self, user_id, activity_id):
+    return self.active().filter(Q(author_id=user_id) & Q(activity_id=activity_id))

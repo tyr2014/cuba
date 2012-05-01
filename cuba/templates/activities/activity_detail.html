@@ -8,26 +8,56 @@
         <div class="span3">
           <ul style="list-style:none;">
             <li>
+              <form action="{% url order_create activity.pk %}" method="post">{% csrf_token %}
+                <input type="submit" class="btn btn-primary btn-large" value="{{ activity.currency }}{{ activity.cost }}/人" />
+              </form>
+            </li>
+            <li>报名截止：{{ deadline }}</li>
+            <li>原价：
               <span style='color:red;text-decoration:line-through'>
-                <span style='color:#000000;'>市场价：{{ activity.currency }}{{ activity.market_cost }}</span>
+                <span style='color:#000000;'>{{ activity.currency }}{{ activity.market_cost }}</span>
               </span>
             </li>
-            <li><span>途客价：{{ activity.currency }}{{ activity.cost }}</span></li>
-            <li><span>节省：{{ activity.currency }}{{ 50 }}</span></li>
-            <li><a class="btn btn-primary btn-large" href="#">立即预订！</a></li>
+            <li>还有{{ open_seats }}个位置</li>
           </ul>
         </div>
         <div class="span5">
-          <p>{{ activity.description }}</p>
-          <img src="{{ activity.photo_set.all.0.get_full_url }}" />
+          <img src="{{ cover }}" width="400" />
         </div>
       </div>
+
+      <div class="activity-desc">
+        <img src="{{ profile.avatar.get_full_url }}" width="50" height="50" />
+        <blockquote><p>{{ activity.description }}</p></blockquote>
+      </div>
+
+      <dl class="dl-horizontal">
+
+        <dt>难易程度</dt>
+        <dd>{{ activity.physical_level }}</dd>
+
+        <dt>类型</dt>
+        <dd>{{ activity.category }}</dd>
+
+        <dt>行程安排</dt>
+        <dd>
+          <pre>{{ activity.activity_info }}</pre>
+        </dd>
+        <dt>地图</dt>
+        <dd><img src="{{ activity.map.get_full_url }}" class="float-left" /></dd>
+
+        <dt>费用说明</dt>
+        <dd><pre>{{ activity.cost_description }}</pre></dd>
+        <dt>注意事项</dt>
+        <dd><pre>{{ activity.required }}</pre></dd>
+
+      </dl>
     </div>
     <div class="span4">
       <div class="hero-unit">
         <a href="{% url user_detail profile.user_id %}"><img src="{{ profile.avatar.get_full_url }}" /></a>
         <p>发布者：{{ profile.fullname }}</p>
-        <p>个人简介: {{ profile.bio }}</p>
+        <blockquote><p>{{ profile.philosophy }}</p></blockquote>
 
       </div>
 

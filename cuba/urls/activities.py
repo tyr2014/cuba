@@ -7,6 +7,7 @@ from cuba.models.activities import Activity
 from cuba.utils import const
 from cuba.forms.activities import ActivityDescriptionForm, ActivityAvailabilityForm, ActivityPublishForm
 from cuba.views.activities import ActivityWizard, ActivityDetailView
+from cuba.views.orders import OrderCreateView
 
 class ActivityResource(ModelResource):
   model = Activity
@@ -20,4 +21,5 @@ urlpatterns = patterns('',
   url(r'^api/^%s/$' % const.MATCH_PK, InstanceModelView.as_view(resource=ActivityResource)),
 
   url(r'^(?P<pk>\d+)/$', ActivityDetailView.as_view(), name='activity_detail'),
+  url(r'^(?P<pk>\d+)/book/$', login_required(OrderCreateView.as_view()), name='order_create'),
 )

@@ -11,6 +11,7 @@ class Country(models.Model):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_country'
+    verbose_name_plural = 'countries'
 
   name = models.CharField(_('名称'), max_length=const.NAME_LENGTH, help_text=_('国家名称'))
 
@@ -22,6 +23,7 @@ class City(models.Model):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_city'
+    verbose_name_plural = 'cities'
 
   name = models.CharField(_('名称'), max_length=const.NAME_LENGTH, help_text=_('城市名称'))
   country = models.ForeignKey(Country)

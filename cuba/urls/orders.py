@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, url
 from djangorestframework.resources import ModelResource
 from cuba.models.orders import Order
-from cuba.views.accounts import UserDetailView
+
+from cuba.views.orders import OrderDetailView
 
 urlpatterns = patterns('',
-  url(r'^(?P<pk>\d+)/$', UserDetailView.as_view(), name='user_detail'),
-
+  url(r'^(?P<pk>\d+)/$', OrderDetailView.as_view(), name='order_detail'),
 )

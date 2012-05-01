@@ -1,4 +1,5 @@
 *-min.js
+*.json
 *.bak
 *.pyc
 *.rdb

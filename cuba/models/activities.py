@@ -24,6 +24,9 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   title = models.CharField(_('活动名称'), max_length=const.TITLE_LENGTH,
                            help_text=_('活动名称可以用来查找你的活动'))
 
+  cover = models.OneToOneField('Photo', verbose_name=_('封面'), related_name='activity_with_cover_set',
+                            help_text=_('添加一个让你的活动与众不同的封面'))
+
   description = models.CharField(_('描述'), max_length=const.DESCRIPTION_LENGTH,
                                  help_text=_('详细描述'))
 

@@ -11,6 +11,7 @@ class UserProfileResource(ModelResource):
 urlpatterns = patterns('',
 
   url(r'^(?P<pk>\d+)/$', UserDetailView.as_view(), name='user_detail'),
+
   url(r'api/^$', ListOrCreateModelView.as_view(resource=UserProfileResource)),
   url(r'^%s/$' % const.MATCH_PK, InstanceModelView.as_view(resource=UserProfileResource)),
 )

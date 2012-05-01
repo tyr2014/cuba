@@ -44,6 +44,23 @@ class UserProfile(Locatable):
   def __unicode__(self):
     return self.fullname
 
+  def create_activity(self):
+    raise NotImplemented
+
+  def create_order(self, activity, total_participants=1):
+    from cuba.models import Order
+    existing_order = self.get_order(activity)
+    if len(existing_order) > 0:
+      return existing_order[0]
+
+    return Order.create(activity, self.user, total_participants)
+
+  def get_order(self, activity):
+    from cuba.models import Order
+    order = Order.objects.ordered(self.user_id, activity.pk)
+    return order
+
+
 class UserSnsInfo(models.Model):
   class Meta:
     app_label = 'cuba'

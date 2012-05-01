@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  <div class="hero-unit">
+    <h1>订单详情</h1>
+    <table class="table">
+      <thead>
+        <tr><td>订单号</td><td>活动名称</td><td>订购数量</td><td>支付金额</td></tr>
+      </thead>
+      <tr>
+        <td>{{ order.order_number }}</td>
+        <td>{{ order.activity.title }}</td>
+        <td>{{ order.total_participants }}</td>
+        <td>{{ order.actual_payment }}</td>
+      </tr>
+    </table>
+    <form action="" method="post" class="form-horizontal">{% csrf_token %}
+      <input type="submit" value="{% trans "立即支付" %}"/>
+    </form>
+  </div>
+
+{% endblock %}

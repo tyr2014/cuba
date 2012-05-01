@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 from django.http import HttpResponseRedirect
-
+from django.utils.datetime_safe import datetime
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.formtools.wizard.views import SessionWizardView
 
@@ -10,6 +10,7 @@ import logging
 from django.views.generic.detail import DetailView
 from cuba.models.activities import Activity
 from cuba.models.orders import Order
+from cuba.utils import const
 from cuba.utils.helper import get_url_by_conf
 
 logger = logging.getLogger(__name__)
@@ -43,8 +44,21 @@ class ActivityDetailView(DetailView):
 
   def get_context_data(self, **kwargs):
     context = super(ActivityDetailView, self).get_context_data(**kwargs)
+
     activity = context['activity']
     context['orders'] = activity.order_set.all()
     context['author'] = activity.author
     context['profile'] = activity.author.get_profile()
+
+    context['cover'] = activity.cover.get_full_url()
+
+    diff = (activity.expiry_date - datetime.now()).total_seconds()
+    if diff > 0:
+      context['deadline'] = int(diff)
+    else:
+      context['deadline'] = 0
+
+    open_seats = activity.max_participants - Order.objects.activity(activity.pk).count()
+    context['open_seats'] = open_seats
+
     return context
