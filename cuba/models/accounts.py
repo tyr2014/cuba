@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from cuba.models.mixins.locatable import Locatable
+from cuba.models.photos import Photo
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
@@ -23,6 +24,7 @@ class UserProfile(Locatable):
 
   # basic personal info
   fullname = models.CharField(_('姓名'), max_length=const.NAME_LENGTH, help_text=_(''))
+  avatar = models.OneToOneField(Photo, blank=True, null=True)
   gender = models.CharField(_('性别'), max_length=1, choices=const.USER_GENDER_CHOICES, help_text=_(''))
   birthday = models.DateField(_('生日'), help_text=_(''), blank=True, null=True)
 
