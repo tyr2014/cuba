@@ -11,7 +11,7 @@ from cuba.views.activities import ActivityWizard, ActivityDetailView
 class ActivityResource(ModelResource):
   model = Activity
 
-urlpatterns = patterns('activities.views',
+urlpatterns = patterns('',
   #url('^add/(\d+)/description/$', ''),
   url(r'^$', ListView.as_view(model=Activity, template_name='activities/activity_list.html'), name='activity_list'),
   url(r'^create/$', login_required(ActivityWizard.as_view([ActivityDescriptionForm, ActivityAvailabilityForm, ActivityPublishForm])), name='activity_create'),

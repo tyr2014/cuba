@@ -17,8 +17,7 @@ class Ownable(models.Model):
   class Meta:
     abstract = True
 
-  author = models.ForeignKey(User, verbose_name=_("作者"),
-                           related_name="%(class)ss")
+  author = models.ForeignKey(User, verbose_name=_("作者"))
 
 
   def is_editable(self, request):

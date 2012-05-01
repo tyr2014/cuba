@@ -19,13 +19,15 @@
         </div>
         <div class="span5">
           <p>{{ activity.description }}</p>
+          <img src="{{ activity.photo_set.all.0.get_full_url }}" />
         </div>
       </div>
     </div>
     <div class="span4">
       <div class="hero-unit">
-        <p>发布者：{{ activity.author.username }}</p>
-        <p>个人简介: {{ activity.author.get_profile.bio }}</p>
+        <a href="{% url user_detail profile.user_id %}"><img src="{{ profile.avatar.get_full_url }}" /></a>
+        <p>发布者：{{ profile.fullname }}</p>
+        <p>个人简介: {{ profile.bio }}</p>
 
       </div>
 

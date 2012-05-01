@@ -18,6 +18,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_activity'
+    verbose_name_plural = 'activities'
 
   # basic description
   title = models.CharField(_('活动名称'), max_length=const.TITLE_LENGTH,
@@ -26,7 +27,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   description = models.CharField(_('描述'), max_length=const.DESCRIPTION_LENGTH,
                                  help_text=_('详细描述'))
 
-  physical_level = models.SmallIntegerField(_('激烈程度'), choices=const.ACTIVITY_PHYSICAL_LEVEL_CHOICES,
+  physical_level = models.SmallIntegerField(_('难易程度'), choices=const.ACTIVITY_PHYSICAL_LEVEL_CHOICES,
                                             help_text=(_('1-5')),
                                             default=1)
 
@@ -41,7 +42,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                               help_text=_(''),
                               blank=True, default='')
 
-  more_info = models.TextField(_('其他信息'), max_length=const.DESCRIPTION_LENGTH,
+  activity_info = models.TextField(_('活动详情'), max_length=const.TEXT_LENGTH,
                                help_text=_(''),
                                blank=True, default='')
   
@@ -50,6 +51,10 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   # availability and pricing
   start = models.DateTimeField(_('开始时间'), help_text=_(''))
   end = models.DateTimeField(_('结束时间'), help_text=_(''))
+  datetime_description = models.CharField(_('对活动时间你还有什么补充?'), max_length=const.DESCRIPTION_LENGTH,
+                                          help_text=_(''),
+                                          blank=True, default='')
+
   currency = models.CharField(_('支付货币'), max_length=3, choices=const.ACTIVITY_CURRENCY_CHOICES,
                               help_text=_(''),
                               default= 'CNY')
@@ -71,8 +76,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                                          default=1)
 
   max_participants = models.IntegerField(_('人数上限'),
-                                         help_text=_(''),
-                                         default=-1)
+                                         help_text=_(''))
 
   cancel_policy = models.SmallIntegerField(_('取消政策'), choices=const.ACTIVITY_CANCEL_POLICY_CHOICES,
                                    help_text=_(''),
@@ -87,3 +91,15 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
 
   def __unicode__(self):
     return self.title
+
+class Coupon(Ownable):
+  class Meta:
+    app_label = 'cuba'
+    db_table = 'cuba_coupon'
+
+  activity = models.ForeignKey('Activity')
+  code = models.CharField(_('优惠券代码'), max_length=const.TITLE_LENGTH)
+  discount = models.SmallIntegerField()
+
+  def __unicode__(self):
+    return '%s:%s' % (self.activity_id, self.discount)

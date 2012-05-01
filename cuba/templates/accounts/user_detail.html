@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div class="hero-unit">
+  <img src="{{ profile.avatar.get_full_url }}" />
+  <p>{{ profile.fullname }}</p>
+  <p>{{ profile.bio }}</p>
+</div>
+<div class="row">
+  <div class="span4">
+    <h2>发布的活动</h2>
+    <ul>
+      {% for activity in activities %}
+        <li><a href="{% url activity_detail activity.pk %}">{{ activity.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="span4">
+    <h2>参加的活动</h2>
+    <ul>
+      {% for booking in bookings %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="span4">
+    <h2>最近的评价</h2>
+  </div>
+</div>
+
+
+{% endblock %}

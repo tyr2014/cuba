@@ -43,5 +43,8 @@ class ActivityDetailView(DetailView):
 
   def get_context_data(self, **kwargs):
     context = super(ActivityDetailView, self).get_context_data(**kwargs)
-    context['bookings'] = context['activity'].booking_set.all()
+    activity = context['activity']
+    context['bookings'] = activity.booking_set.all()
+    context['author'] = activity.author
+    context['profile'] = activity.author.get_profile()
     return context
