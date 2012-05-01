@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from cuba.models.managers.core import DisplayableManager
+from cuba.models.mixins.expirable import Expirable
 from cuba.utils.alias import tran_lazy as _
 from django.utils.datetime_safe import datetime
 
@@ -24,7 +25,8 @@ CONTENT_STATUS_CHOICES = (
   (CONTENT_STATUS_PRIVATE, _('私密发表')),
 )
 
-class Displayable(models.Model):
+
+class Displayable(Expirable):
   class Meta:
     abstract = True
 
@@ -41,10 +43,6 @@ class Displayable(models.Model):
   publish_date = models.DateTimeField(_('发布时间'),
                                       help_text=_('该活动何时上架'),
                                       blank=True, null=True)
-
-  expiry_date = models.DateTimeField(_('到期时间'),
-                                     help_text=_('该活动何时截至'),
-                                     blank=True, null=True)
 
   short_url = models.URLField(blank=True, null=True)
 

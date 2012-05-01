@@ -8,7 +8,14 @@ from django.utils.datetime_safe import datetime
 import logging
 logger = logging.getLogger(__name__)
 
-class PublishedManager(Manager):
+class ExpirableManager(Manager):
+  def active(self):
+    return self.filter(Q(expiry_date__gte=datetime.now()) | Q(expiry_date__isnull=True))
+
+  def expired(self):
+    return self.filter(Q(expiry_date__lt=datetime.now()) & Q(expiry_date__isnull=False))
+
+class PublishedManager(ExpirableManager):
   """
   Provides filter for restricting items returned by status and
   publish date when the given user is not a staff member.
@@ -23,10 +30,10 @@ class PublishedManager(Manager):
     from cuba.models.mixins.displayable import CONTENT_STATUS_OPEN
     if for_user is not None and for_user.is_staff:
       return self.all()
-    return self.filter(
+    return self.active().filter(
       Q(publish_date__lte=datetime.now()) | Q(publish_date__isnull=True),
-      Q(expiry_date__gte=datetime.now()) | Q(expiry_date__isnull=True),
       Q(status=CONTENT_STATUS_OPEN))
+
 
 class DisplayableManager(PublishedManager):
   pass

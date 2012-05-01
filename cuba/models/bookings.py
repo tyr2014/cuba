@@ -4,6 +4,7 @@ from django.db import models
 from cuba.models.activities import Activity
 from django.contrib.auth.models import User
 from cuba.models.mixins.cacheable import CacheableMixin
+from cuba.models.mixins.expirable import Expirable
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
@@ -11,7 +12,7 @@ from cuba.utils import const
 import logging
 logger = logging.getLogger(__name__)
 
-class Booking(Ownable, CacheableMixin):
+class Booking(Ownable, Expirable, CacheableMixin):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_booking'
@@ -22,9 +23,14 @@ class Booking(Ownable, CacheableMixin):
   total_participants = models.SmallIntegerField(_('预订人数'), help_text=_(''))
   total_payment = models.IntegerField(_('应付金额'), help_text=_(''))
   actual_payment = models.IntegerField(_('实付金额'), help_text=_(''))
+  payed = models.BooleanField(_('是否已支付'), default=False)
 
   def __unicode__(self):
     return '%s:%s' % (self.activity_id, self.pk)
+
+  @property
+  def order_number(self):
+    return 'A-%05d-%05d' % (self.activity_id, self.pk)
 
 class BookingParticipant(models.Model):
   class Meta:
