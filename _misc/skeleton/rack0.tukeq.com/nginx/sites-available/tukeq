@@ -1,0 +1,14 @@
+server {
+	listen unix:/run/nginx.tukeq_maint.sock default_server;
+	access_log /var/log/nginx/tukeq-maint.log;
+	root "/home/dev/www/maintenance-page";
+	location / {
+		try_files $uri /index.html;
+	}
+}
+server {
+	server_name *.tukeq.com .toureet.com .tukequan.com;
+	access_log /var/log/nginx/tukeq-defalt.log vhost;
+	rewrite ^ http://tukeq.com/ permanent;
+}
+

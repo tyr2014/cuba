@@ -1,0 +1,23 @@
+boto
+celery
+ConcurrentLogHandler
+django
+-e git+git://github.com/earle/django-bootstrap.git#egg=bootstrap
+django-celery
+django-debug-toolbar
+django-extensions
+django-jenkins
+django-nose
+django-pipeline==1.1.27
+djangorestframework
+dogslow
+eventlet
+fabric
+gunicorn
+hiredis
+ipython
+mmseg
+PIL
+pyflakes
+redis
+south

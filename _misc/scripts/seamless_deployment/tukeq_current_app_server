@@ -1,0 +1,4 @@
+#!/bin/bash
+
+basename $(readlink /etc/nginx/sites-enabled/21tukeq_seamless)
+

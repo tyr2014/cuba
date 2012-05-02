@@ -1,0 +1,25 @@
+From d687cb2cb3567dfd40a9aebc81660f8c0f1f0fb6 Mon Sep 17 00:00:00 2001
+From: Tao <tao@tukeq.com>
+Date: Tue, 10 Jan 2012 15:25:44 +0800
+Subject: [PATCH 3/5] dont enclose concatenated js into a closure function
+
+---
+ pipeline/compressors/__init__.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/pipeline/compressors/__init__.py b/pipeline/compressors/__init__.py
+index 376a880..8c94a4b 100644
+--- a/pipeline/compressors/__init__.py
++++ b/pipeline/compressors/__init__.py
+@@ -53,7 +53,7 @@ class Compressor(object):
+         js = self.concatenate(paths)
+         if templates:
+             js = js + self.compile_templates(templates)
+-        js = "(function() { %s }).call(this);" % js
++#        js = "(function() { %s }).call(this);" % js
+ 
+         compressor = self.js_compressor
+         if compressor:
+-- 
+1.7.7.3
+

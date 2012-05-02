@@ -1,0 +1,15 @@
+ScriptDir="/_misc/scripts"
+RepoRoot=$(cd ${0%/$(basename $0)}; pwd)
+RepoRoot=${RepoRoot%$ScriptDir}
+
+DjangoLogDir="$RepoRoot/log"
+DjangoConfig="$RepoRoot/config/deploy_env.py"
+PipCacheDir="$HOME/.cache/pip"
+RepoName=$(basename $RepoRoot)
+
+VirtualEnvs="$HOME/.virtualenvs"
+ListFile="$VirtualEnvs/.envs.list"
+SourcedFile="$VirtualEnvs/.workon.sh"
+
+test -r $DjangoConfig && source $DjangoConfig
+

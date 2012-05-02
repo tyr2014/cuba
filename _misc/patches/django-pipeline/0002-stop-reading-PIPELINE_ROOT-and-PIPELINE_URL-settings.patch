@@ -1,0 +1,30 @@
+From d64811dfb52853dd55fc7867400f1f9e5717ce26 Mon Sep 17 00:00:00 2001
+From: Tao <tao@tukeq.com>
+Date: Tue, 10 Jan 2012 10:20:02 +0800
+Subject: [PATCH 2/5] stop reading PIPELINE_ROOT and PIPELINE_URL settings
+ from MEDIA_*
+
+see ticket #10650 of the django project. MEDIA_* settings is for
+user-uploaded files. there's no point that pipeline should read
+(and take precedence of) this directory.
+---
+ pipeline/conf/settings.py |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
+
+diff --git a/pipeline/conf/settings.py b/pipeline/conf/settings.py
+index 9ec6416..013d05e 100644
+--- a/pipeline/conf/settings.py
++++ b/pipeline/conf/settings.py
+@@ -2,9 +2,6 @@ from django.conf import settings
+ from django.core.exceptions import ImproperlyConfigured
+ 
+ 
+-PIPELINE_ROOT = getattr(settings, 'PIPELINE_ROOT', settings.MEDIA_ROOT)
+-PIPELINE_URL = getattr(settings, 'PIPELINE_URL', settings.MEDIA_URL)
+-
+ PIPELINE = getattr(settings, 'PIPELINE', not settings.DEBUG)
+ PIPELINE_ROOT = getattr(settings, 'PIPELINE_ROOT', settings.STATIC_ROOT)
+ PIPELINE_URL = getattr(settings, 'PIPELINE_URL', settings.STATIC_URL)
+-- 
+1.7.7.3
+

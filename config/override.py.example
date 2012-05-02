@@ -1,0 +1,6 @@
+## copy this file to config/override.py to override config with local values
+ConfigOverride = (
+    ('django', 'env', 'prod'),
+    ('mongodb', 'dbname', 'toureet2'),
+)
+

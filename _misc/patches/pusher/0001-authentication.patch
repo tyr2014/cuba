@@ -1,0 +1,11 @@
+index a41f3fc..eb2be4a 100644
+--- a/pusher/__init__.py
++++ b/pusher/__init__.py
+@@ -50,7 +50,7 @@ class Channel(object):
+
+     def signed_query(self, event, json_data, socket_id):
+         query_string = self.compose_querystring(event, json_data, socket_id)
+-        string_to_sign = "POST\n%s\n%s" % (self.path, query_string)
++        string_to_sign = "POST\n%s\n%s=&%s" % (self.path, json_data, query_string)
+         signature = hmac.new(self.pusher.secret, string_to_sign, hashlib.sha256).hexdigest()
+         return "%s&auth_signature=%s" % (query_string, signature)

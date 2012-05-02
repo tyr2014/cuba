@@ -1,0 +1,28 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults        0       0
+# / was on /dev/sdc1 during installation
+UUID=f2160858-2a8c-4b6e-b80a-0aed19c475d5 /               ext4    errors=remount-ro 0       1
+# /home was on /dev/sdc6 during installation
+UUID=70d6350d-7c35-47a4-a054-9aedac7cf472 /home           ext4    defaults        0       2
+# /usr was on /dev/sdc2 during installation
+UUID=651c3474-78d0-40bf-a37f-23b21ae49c4e /usr            ext4    defaults        0       2
+# /var was on /dev/sdc5 during installation
+UUID=0c0ae37f-5c59-4ed9-af03-95bdaeced87d /var            ext4    defaults        0       2
+# swap was on /dev/sdc7 during installation
+UUID=ffd6254d-a2c6-4fd7-be86-d54cb45852cd none            swap    sw              0       0
+/dev/scd0       /media/cdrom0   udf,iso9660 user,noauto     0       0
+/dev/sda1       /media/usb0     auto    rw,user,noauto  0       0
+/dev/sdb1       /media/usb1     auto    rw,user,noauto  0       0
+
+# mongodb, was /dev/sda8
+UUID=8ada816d-eb28-4002-b4f0-16cfc92935ee /var/lib/mongodb	ext4	noatime	0 2
+
+# tmpfs to store uploaded avatars
+none	/home/dev/development/tukeq-atlantis/static/media/uploaded_tempfiles	tmpfs	rw,nosuid,nodev,size=512m 0 0
+

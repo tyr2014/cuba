@@ -1,0 +1,26 @@
+From 182cabc222ff651bd92c869ff35dc7ce7ef47345 Mon Sep 17 00:00:00 2001
+From: Tao <tao@tukeq.com>
+Date: Tue, 10 Jan 2012 15:26:21 +0800
+Subject: [PATCH 4/5] use single slash to match absolute media path in css
+ files
+
+---
+ pipeline/compressors/__init__.py |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/pipeline/compressors/__init__.py b/pipeline/compressors/__init__.py
+index 8c94a4b..f28ae73 100644
+--- a/pipeline/compressors/__init__.py
++++ b/pipeline/compressors/__init__.py
+@@ -123,7 +123,7 @@ class Compressor(object):
+         for path in paths:
+             def reconstruct(match):
+                 asset_path = match.group(1)
+-                if asset_path.startswith("http") or asset_path.startswith("//"):
++                if asset_path.startswith("http") or asset_path.startswith("/"):
+                     return "url(%s)" % asset_path
+                 asset_url = self.construct_asset_path(asset_path, path,
+                     variant, absolute_asset_paths)
+-- 
+1.7.7.3
+

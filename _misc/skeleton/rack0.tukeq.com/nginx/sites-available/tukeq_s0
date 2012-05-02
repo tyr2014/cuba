@@ -1,0 +1,46 @@
+upstream tukeq_seamless {
+	server unix:/tmp/tukeq-s0-fastcgi.sock;
+	server unix:/run/nginx.tukeq_maint.sock backup;
+}
+server {
+	listen 80;
+	server_name tukeq.com;
+	set $tukeq_current_root "/home/dev/development/tukeq-s0";
+	root $tukeq_current_root;
+	client_max_body_size 8m;
+
+	access_log /var/log/nginx/tukeq-s0.access.log;
+	error_log /var/log/nginx/tukeq-s0.error.log;
+
+	location = /favicon.ico {
+		root $tukeq_current_root/static/sites/img;
+	}
+	location = /robots.txt {
+		root $tukeq_current_root/static/sites;
+		#alias $tukeq_current_root/static/sites/robots_disallow_all.txt;
+	}
+	location ~* \.(php|rar|zip|cgi|pl)$ {
+		#deny all;
+		return 404;
+	}
+	location ~* ^/static/ {
+		root $tukeq_current_root;
+		expires 30d;
+	}
+	location ~* ^/blog/ {
+		rewrite ^ http://blog.tukeq.com$uri permanent;
+	}
+	location / {
+		## use fastcgi
+		#fastcgi_pass 127.0.0.1:9001;
+		fastcgi_pass tukeq_seamless;
+		include django_fcgi_params;
+
+		## use tornado
+		#proxy_pass http://tukeq-live-tornado;
+		#include /etc/nginx/proxy_params;
+	}
+
+	error_page 404 /static/media/404.html;
+}
+

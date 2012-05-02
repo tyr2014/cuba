@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+deploy_to = {
+	'tukeq_s0' => ['/home/dev/development/tukeq-s1','/home/dev/.virtualenvs/tukeq-atlantis_prod','tukeq-s1','../sites-available/tukeq_s1'],
+	'tukeq_s1' => ['/home/dev/development/tukeq-s0','/home/dev/.virtualenvs/tukeq-atlantis_prod','tukeq-s0','../sites-available/tukeq_s0'],
+}
+nginx_conffile = '/etc/nginx/sites-enabled/21tukeq_seamless'
+
+target_name = `basename $(readlink #{nginx_conffile})`.strip
+abort unless deploy_to.has_key? target_name
+
+dir, ve, restart, link = deploy_to[target_name]
+
+Dir.chdir(dir)
+ENV['GIT_DIR'] = "#{dir}/.git"
+old_rev = `git rev-parse HEAD`.strip
+
+puts `git fetch origin`
+
+arg = ARGV.shift
+unless arg.nil?
+	`git rev-parse -q --verify #{arg}`
+	abort "ERROR: commit '#{arg}' not found" unless $?.success?
+	new_rev = arg
+end
+new_rev = (new_rev or `git rev-parse origin/live`.strip)
+abort "nothing to deploy." if `git rev-parse #{new_rev}`.strip == old_rev
+puts "currently running on #{target_name}, deploying to stage server: #{old_rev[0..6]}..#{new_rev[0..6]}"
+
+puts `git reset --hard #{new_rev}`
+abort "ERROR: failed to checkout #{new_rev}" unless $?.success?
+
+puts `#{ve}/bin/python ./manage.py synccompress --force`
+abort "ERROR: (synccompress)" unless $?.success?
+
+puts `supervisorctl restart #{restart}`
+abort "ERROR: (supervisorctl restart)" unless $?.success?
+
+celery_changed = ! `git diff --numstat #{old_rev} #{new_rev} -- tasks/`.empty?
+puts "WARN: tasks/ directory changed, may need to restart celeryd services." if celery_changed
+
+puts `sudo ln -sf #{link} #{nginx_conffile}`
+puts `sudo /etc/init.d/nginx reload`
+
+puts "completed"
+

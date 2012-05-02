@@ -1,0 +1,41 @@
+upstream tukeq-qa-tornado {
+    server 127.0.0.1:9001;
+    server 127.0.0.1:9002;
+    server 127.0.0.1:9003;
+    server 127.0.0.1:9004;
+}
+server {
+    listen 80;
+    server_name dev.tukeq.com tukeq.com;
+    set $tukeq_doc_root "/home/dev/development/tukeq-atlantis";
+    root $tukeq_doc_root;
+    client_max_body_size 8m;
+
+    access_log /var/log/nginx/python.access.log;
+    error_log /var/log/nginx/python.error.log;
+
+    location = /favicon.ico {
+        root $tukeq_doc_root/static/sites/img;
+    }
+    location = /robots.txt {
+        root $tukeq_doc_root/static/sites;
+    }
+    location = /sina_verified_check.txt {
+        root $tukeq_doc_root/static/sites;
+    }
+    location ~* ^/static/ {
+        root $tukeq_doc_root;
+        expires 30d;
+    }
+    location / {
+        ## use fastcgi
+        #fastcgi_pass 127.0.0.1:9001;
+        fastcgi_pass unix:/tmp/tukeq-qa-fastcgi.sock;
+        include django_fcgi_params;
+        
+        ## use tornado
+        #proxy_pass http://tukeq-qa-tornado;
+        #include /etc/nginx/proxy_params;
+    }
+}
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+REPO_DIR="/home/dev/development"
+
+for REPO in `ls $REPO_DIR | grep tukeq`; do
+	echo $REPO
+	GIT_DIR="$REPO_DIR/$REPO/.git" git rev-parse HEAD
+done
+

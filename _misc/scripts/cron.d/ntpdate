@@ -1,0 +1,33 @@
+#!/bin/sh
+
+## based on debian /etc/network/if-up.d/ntpdate ##
+
+set -e
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# Check whether ntpdate was removed but not purged; it's useless to wait for 
+# it in that case.
+if [ ! -x /usr/sbin/ntpdate-debian ] && [ -d /usr/sbin ]; then
+	exit 0
+fi
+
+(
+
+LOCKFILE=/var/lock/ntpdate
+
+# Avoid running more than one at a time
+if [ -x /usr/bin/lockfile-create ]; then
+	lockfile-create $LOCKFILE
+	lockfile-touch $LOCKFILE &
+	LOCKTOUCHPID="$!"
+fi
+
+/usr/sbin/ntpdate-debian -s 2>/dev/null || :
+
+if [ -x /usr/bin/lockfile-create ] ; then
+	kill $LOCKTOUCHPID
+	lockfile-remove $LOCKFILE
+fi
+
+) &
