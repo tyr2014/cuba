@@ -3,6 +3,7 @@
 from django.contrib import admin
 from cuba.models.accounts import UserProfile
 from cuba.models.activities import Activity
+from cuba.models.generics import Category, CancelPolicy, TaggedItem
 from cuba.models.orders import Order, OrderParticipant
 from cuba.models.photos import Photo
 from cuba.models.videos import Video
@@ -16,4 +17,7 @@ admin.site.register(Photo)
 admin.site.register(Video)
 admin.site.register(Country)
 admin.site.register(City)
+admin.site.register(Category)
+admin.site.register(CancelPolicy)
+admin.site.register(TaggedItem)
 

@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+from cuba.models.fields.fields import TitleField
 from cuba.models.mixins.cacheable import CacheableMixin
 from cuba.models.mixins.displayable import Displayable
 from cuba.models.mixins.locatable import Locatable
@@ -21,8 +22,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
     verbose_name_plural = 'activities'
 
   # basic description
-  title = models.CharField(_('活动名称'), max_length=const.TITLE_LENGTH,
-                           help_text=_('活动名称可以用来查找你的活动'))
+  title = TitleField(_('活动名称'), help_text=_('活动名称可以用来查找你的活动'))
 
   cover = models.OneToOneField('Photo', verbose_name=_('封面'), related_name='activity_with_cover',
                             help_text=_('添加一个让你的活动与众不同的封面'))

@@ -3,14 +3,16 @@ from __future__ import unicode_literals
 from django.conf import settings
 
 from django.utils.encoding import smart_unicode
-from cuba.forms.fields.fields import TagField as FormTagField
+from cuba.forms.fields.fields import TagField as FormTagField, TitleField as FormTitleField
 from django.db import models
+from cuba.utils import const
 from cuba.utils.storages import UpYunStorage
 
 MAX_TAG_LENGTH = 16
 
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.TagField"])
+add_introspection_rules([], ["^cuba\.models\.fields\.fields\.TitleField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.SeparatedValuesField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.UpYunFileField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.UpYunImageField"])
@@ -29,6 +31,17 @@ class TagField(models.CharField):
     defaults = {'form_class': FormTagField}
     defaults.update(kwargs)
     return super(TagField, self).formfield(**defaults)
+
+class TitleField(models.CharField):
+  description = "请输入最多%(max_length)s个字符"
+  def __init__(self, *args, **kwargs):
+    kwargs['max_length'] = kwargs.get('max_length', const.TITLE_LENGTH)
+    super(TitleField, self).__init__(*args, **kwargs)
+
+  def formfield(self, **kwargs):
+    defaults = {'form_class': FormTitleField}
+    defaults.update(kwargs)
+    return super(TitleField, self).formfield(**defaults)
 
 class SeparatedValuesField(models.TextField):
   __metaclass__ = models.SubfieldBase

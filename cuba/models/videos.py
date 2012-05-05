@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from django.db import models
+from cuba.models.fields.fields import TitleField
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
 from cuba.models.activities import Activity
@@ -15,9 +16,7 @@ class Video(Ownable):
     app_label = 'cuba'
     db_table = 'cuba_video'
 
-  title = models.CharField(_('视频名称'), max_length=const.TITLE_LENGTH,
-                           help_text=_(''),
-                           blank=True, default='')
+  title = TitleField(_('视频名称'), help_text=_(''), blank=True, default='')
 
   url = models.URLField(_('视频位置'), max_length=const.URL_LENGTH,
                         help_text=_(''))
