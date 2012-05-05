@@ -3,14 +3,12 @@
 *.bak
 *.pyc
 *.rdb
-*.db
 *.swo
 *.swp
 *~
 .directory
 .DS_Store
 .idea/
-cuba/migrations/*
 .scrapy
 .svn
 coverage
