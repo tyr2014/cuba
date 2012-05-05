@@ -26,8 +26,8 @@ class OrderCreateView(CreateView):
 
   def post(self, request, pk, *args, **kwargs):
     activity = get_object_or_404(Activity, pk=pk)
-    p = request.user.get_profile()
-    order = p.create_order(activity)
+    user = request.user
+    order = user.create_order(activity)
     return HttpResponseRedirect(get_url_by_conf('order_detail', args=[order.pk]))
 
 class OrderDetailView(DetailView):

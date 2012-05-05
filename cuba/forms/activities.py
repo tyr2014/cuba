@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 from cuba.utils.alias import tran as _
 from django.forms import Textarea, CheckboxSelectMultiple, SelectMultiple
-from cuba.fields.widgets import DateTimeWidget, AutocompleteWidget
+from fields.widgets import DateTimeWidget, AutocompleteWidget
 from cuba.models.activities import Activity
 from bootstrap.forms import Fieldset, BootstrapModelForm
 

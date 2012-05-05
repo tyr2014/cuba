@@ -204,3 +204,12 @@ USE_SOUTH = True
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+
+# upyun related settings
+USE_UPYUN = True
+UPYUN_BINDING_DOMAIN = 'http://api-test.b0.upaiyun.com/'
+UPYUN_API_DOMAIN = 'v0.api.upyun.com'
+UPYUN_BUCKET = 'api-test'
+UPYUN_USERNAME = 'tukeq'
+UPYUN_PASSWORD = '1qaz2wsx'

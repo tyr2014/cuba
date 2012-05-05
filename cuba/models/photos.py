@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from django.db import models
+from cuba.models.fields.fields import UpYunFileField
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
 from cuba.models.activities import Activity
@@ -31,8 +32,7 @@ class Photo(Ownable):
                                   help_text=_(''),
                                   default=1)
 
-  filename = models.URLField(_('文件名'), max_length=const.URL_LENGTH,
-                        help_text=_(''))
+  filename = UpYunFileField(_('文件名'), help_text=_(''))
 
   description = models.CharField(_('照片描述'), max_length=const.DESCRIPTION_LENGTH,
                                  help_text=_(''),

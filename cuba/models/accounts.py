@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.contrib.contenttypes import generic
 
 from django.db import models
 from django.contrib.auth.models import User
+from cuba.models.generics import TaggedItem
 from cuba.models.mixins.locatable import Locatable
 from cuba.models.photos import Photo
 from cuba.utils.alias import tran_lazy as _
@@ -12,6 +14,27 @@ from cuba.utils import const
 
 import logging
 logger = logging.getLogger(__name__)
+
+class UserProxy(User):
+  class Meta:
+    proxy = True
+
+  def create_activity(self):
+    raise NotImplemented
+
+  def create_order(self, activity, total_participants=1):
+    from cuba.models import Order
+    existing_order = self.get_order(activity)
+    if len(existing_order) > 0:
+      return existing_order[0]
+
+    return Order.create(activity, self.pk, total_participants)
+
+  def get_order(self, activity):
+    from cuba.models import Order
+    order = Order.objects.ordered(self.pk, activity.pk)
+    return order
+
 
 class UserProfile(Locatable):
   class Meta:
@@ -36,29 +59,27 @@ class UserProfile(Locatable):
                                 help_text=_(''),
                                 blank=True, default='')
 
-  country_code = models.CharField(_('国家'), max_length=6, choices=const.USER_COUNTRY_CODE_CHOICES, help_text=_(''), default='+86')
-  cell_phone = models.CharField(_('手机号码'), max_length=11, help_text=_(''), blank=True, default='')
-  occupation = models.CharField(_('职业'), max_length=4, choices=const.USER_OCCUPATION_CHOICES, help_text=_(''), blank=True, default='')
-  education = models.CharField(_('受教育程度'), max_length=2, choices=const.USER_EDUCATION_CHOICES, help_text=_(''), blank=True, default='')
+  country_code = models.CharField(_('国家'), max_length=6, choices=const.USER_COUNTRY_CODE_CHOICES,
+                                  help_text=_(''),
+                                  default='+86')
+
+  cell_phone = models.CharField(_('手机号码'), max_length=11,
+                                help_text=_(''),
+                                blank=True, default='')
+
+  occupation = models.CharField(_('职业'), max_length=4, choices=const.USER_OCCUPATION_CHOICES,
+                                help_text=_(''),
+                                blank=True, default='')
+  education = models.CharField(_('受教育程度'), max_length=2, choices=const.USER_EDUCATION_CHOICES,
+                               help_text=_(''),
+                               blank=True, default='')
+
+  tags = generic.GenericRelation(TaggedItem)
 
   def __unicode__(self):
     return self.fullname
 
-  def create_activity(self):
-    raise NotImplemented
 
-  def create_order(self, activity, total_participants=1):
-    from cuba.models import Order
-    existing_order = self.get_order(activity)
-    if len(existing_order) > 0:
-      return existing_order[0]
-
-    return Order.create(activity, self.user, total_participants)
-
-  def get_order(self, activity):
-    from cuba.models import Order
-    order = Order.objects.ordered(self.user_id, activity.pk)
-    return order
 
 
 class UserSnsInfo(models.Model):

@@ -24,7 +24,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   title = models.CharField(_('活动名称'), max_length=const.TITLE_LENGTH,
                            help_text=_('活动名称可以用来查找你的活动'))
 
-  cover = models.OneToOneField('Photo', verbose_name=_('封面'), related_name='activity_with_cover_set',
+  cover = models.OneToOneField('Photo', verbose_name=_('封面'), related_name='activity_with_cover',
                             help_text=_('添加一个让你的活动与众不同的封面'))
 
   description = models.CharField(_('描述'), max_length=const.DESCRIPTION_LENGTH,
@@ -37,8 +37,10 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   # TODO: consider 风景指数，风景类型（有山有水）, etc.
 
 
-  category = models.IntegerField(_('类型'), choices=const.ACTIVITY_CATEGORY_CHOICES,
-                                 help_text=_(''))
+#  category = models.IntegerField(_('类型'), choices=const.ACTIVITY_CATEGORY_CHOICES,
+#                                 help_text=_(''))
+
+  category = models.ManyToManyField('Category', blank=True, null=True)
 
   provided = models.CharField(_('你将提供什么?'), max_length=const.DESCRIPTION_LENGTH,
                               help_text=_(''),
@@ -82,9 +84,11 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   max_participants = models.IntegerField(_('人数上限'),
                                          help_text=_(''))
 
-  cancel_policy = models.SmallIntegerField(_('取消政策'), choices=const.ACTIVITY_CANCEL_POLICY_CHOICES,
-                                   help_text=_(''),
-                                   default=1)
+#  cancel_policy = models.SmallIntegerField(_('取消政策'), choices=const.ACTIVITY_CURRENCY_CHOICES,
+#                                   help_text=_(''),
+#                                   default=1)
+
+  cancel_policy = models.ForeignKey('CancelPolicy', blank=True, null=True)
 
   # map info
   map = models.ForeignKey('Photo', verbose_name=_('地图'), related_name='activity_with_map_set',

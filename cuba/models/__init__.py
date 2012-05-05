@@ -4,6 +4,7 @@ from orders import Order, OrderParticipant
 from photos import Photo
 from videos import Video
 from places import City, Country
+from generics import TaggedItem, CancelPolicy, Category
 
 
 __all__ = [
@@ -16,5 +17,8 @@ __all__ = [
   Video,
   City,
   Country,
-  Video
+  Video,
+  TaggedItem,
+  CancelPolicy,
+  Category,
 ]

@@ -42,10 +42,10 @@ class Order(Ownable, Expirable, CacheableMixin):
     return 'A-%05d-%05d' % (self.activity_id, self.pk)
 
   @classmethod
-  def create(cls, activity, author, total_participants=1):
+  def create(cls, activity, author_id, total_participants=1):
     order = cls()
     order.activity = activity
-    order.author = author
+    order.author_id = author_id
     order.total_participants = total_participants
     order.total_payment = activity.cost * order.total_participants
     order.actual_payment = order.total_payment
