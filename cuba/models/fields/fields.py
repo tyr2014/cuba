@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.conf import settings
+from django.db.models.fields import Field
 
 from django.utils.encoding import smart_unicode
 from cuba.forms.fields.fields import TagField as FormTagField, TitleField as FormTitleField
@@ -105,10 +106,11 @@ class UpYunImageField(models.ImageField):
 
 
 class FloatRangeField(models.FloatField):
+  description = _("请输入范围在%(min_value)s到$(max_value)s的数字")
   def __init__(self, *args, **kwargs):
     self.min_value = kwargs.pop('min_value', None)
     self.max_value = kwargs.pop('max_value', None)
-    super(FloatRangeField, self).__init__(self, *args, **kwargs)
+    Field.__init__(self, *args, **kwargs)
 
   def formfield(self, **kwargs):
     defaults = {}
@@ -120,10 +122,11 @@ class FloatRangeField(models.FloatField):
     return super(FloatRangeField, self).formfield(**defaults)
 
 class IntegerRangeField(models.IntegerField):
+  description = _("请输入范围在%(min_value)s到$(max_value)s的数字")
   def __init__(self, *args, **kwargs):
     self.min_value = kwargs.pop('min_value', None)
     self.max_value = kwargs.pop('max_value', None)
-    super(IntegerRangeField, self).__init__(self, *args, **kwargs)
+    Field.__init__(self, *args, **kwargs)
 
   def formfield(self, **kwargs):
     defaults = {}
