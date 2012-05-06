@@ -53,3 +53,7 @@ def get_category_model_choices(app_name='cuba'):
     names.append(tuple([model.__name__, model._meta.verbose_name]))
 
   return names
+
+def get_image_by_type(url, type = 'medium'):
+  suffix = '!%s' % type if type != 'origin' else ''
+  return url + suffix

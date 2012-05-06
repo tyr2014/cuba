@@ -3,14 +3,12 @@
 from __future__ import unicode_literals
 from django.http import HttpResponseRedirect
 from django.utils.datetime_safe import datetime
-from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.formtools.wizard.views import SessionWizardView
 
 import logging
 from django.views.generic.detail import DetailView
 from cuba.models.activities import Activity
 from cuba.models.orders import Order
-from cuba.utils import const
 from cuba.utils.helper import get_url_by_conf
 
 logger = logging.getLogger(__name__)
@@ -51,7 +49,7 @@ class ActivityDetailView(DetailView):
     context['profile'] = activity.author.get_profile()
 
     context['cover'] = activity.cover.get_full_url()
-
+    context['categories'] = [c.name for c in activity.category.all()]
     diff = (activity.expiry_date - datetime.now()).total_seconds()
     if diff > 0:
       context['deadline'] = int(diff)

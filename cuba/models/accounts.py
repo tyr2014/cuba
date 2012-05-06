@@ -13,10 +13,13 @@ from cuba.utils import const
 
 
 import logging
+from cuba.utils.helper import get_image_by_type
+
 logger = logging.getLogger(__name__)
 
 class UserProxy(User):
   class Meta:
+    app_label = 'cuba'
     proxy = True
 
   def create_activity(self):
@@ -76,6 +79,8 @@ class UserProfile(Locatable):
   def __unicode__(self):
     return self.fullname
 
+  def get_avatar(self, size='square'):
+    return get_image_by_type(self.avatar.url, size)
 
 
 

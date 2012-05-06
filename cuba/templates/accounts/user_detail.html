@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="hero-unit">
-  <img src="{{ profile.avatar.get_full_url }}" />
+  <img src="{{ profile.get_avatar }}" />
   <p>{{ profile.fullname }}</p>
   <p>{{ profile.bio }}</p>
 </div>

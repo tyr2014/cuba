@@ -179,6 +179,12 @@ USE_SOUTH = True
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+AUTHENTICATION_BACKENDS = (
+  'cuba.backends.auth_backend.UserProxyBackend',
+)
+
+
+CUSTOM_USER_MODEL = ('cuba', 'UserProxy')
 
 # upyun related settings
 USE_UPYUN = True

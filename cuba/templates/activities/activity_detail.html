@@ -37,7 +37,11 @@
         <dd>{{ activity.physical_level }}</dd>
 
         <dt>类型</dt>
-        <dd>{{ activity.category }}</dd>
+        <dd>
+          {% for c in categories %}
+            <a href="#" target="_blank">{{ c }}</a>
+          {% endfor %}
+        </dd>
 
         <dt>行程安排</dt>
         <dd>
@@ -55,7 +59,7 @@
     </div>
     <div class="span4">
       <div class="hero-unit">
-        <a href="{% url user_detail profile.user_id %}"><img src="{{ profile.avatar.get_full_url }}" /></a>
+        <a href="{% url user_detail profile.user_id %}"><img src="{{ profile.get_avatar }}" /></a>
         <p>发布者：{{ profile.fullname }}</p>
         <blockquote><p>{{ profile.philosophy }}</p></blockquote>
 

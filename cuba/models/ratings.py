@@ -25,6 +25,9 @@ class RatingEntry(models.Model):
   category = models.ForeignKey('Category', verbose_name=_('类型'))
   value = IntegerRangeField(_('评分'), min_value=0, max_value=5)
 
+  def __unicode__(self):
+    return '%s:%s:%s' % (self.rating, self.category, self.value)
+
 class Rating(Ownable):
   class Meta:
     app_label = 'cuba'
@@ -36,3 +39,5 @@ class Rating(Ownable):
   activity = models.ForeignKey(Activity, verbose_name=_('活动'))
   content = models.CharField(_('你的评价'), max_length=const.DESCRIPTION_LENGTH)
 
+  def __unicode__(self):
+    return '%s->%s:%s' % (self.author, self.target, self.content[:20])

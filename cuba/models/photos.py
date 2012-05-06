@@ -9,6 +9,8 @@ from cuba.models.activities import Activity
 from cuba.utils.alias import tran_lazy as _
 
 import logging
+from cuba.utils.helper import get_image_by_type
+
 logger = logging.getLogger(__name__)
 
 PHOTO_URL = 'http://img.tukeq.com/'
@@ -53,6 +55,6 @@ class Photo(Ownable):
     super(Photo, self).save(force_insert, force_update, using)
     # TODO: trigger save for other photo size, maybe use signal
 
-  def get_full_url(self, size='M'):
-    return self.filename # TODO: remove this as soon as we nail down the photo upload
+  def get_full_url(self, size='medium'):
+    return get_image_by_type(self.filename.url, size)
     #return '%s%s/%s%s' % (PHOTO_URL, self.author_id, size, self.filename)
