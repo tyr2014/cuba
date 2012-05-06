@@ -22,7 +22,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
 
 
   # basic description
-  title = TitleField(_('活动名称'), help_text=_('活动名称可以用来查找你的活动'))
+  title = TitleField(_('活动名称'), unique=True, help_text=_('活动名称可以用来查找你的活动'))
 
   cover = models.OneToOneField('Photo', verbose_name=_('封面'), related_name='activity_with_cover',
                             help_text=_('添加一个让你的活动与众不同的封面'))

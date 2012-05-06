@@ -1,5 +1,6 @@
 from activities import Activity, Coupon
 from accounts import UserProfile, UserSnsInfo
+from ratings import Rating, RatingEntry
 from orders import Order, OrderParticipant
 from photos import Photo
 from videos import Video
@@ -17,6 +18,8 @@ __all__ = [
   Order,
   OrderParticipant,
   Photo,
+  Rating,
+  RatingEntry,
   TaggedItem,
   UserProfile,
   UserSnsInfo,

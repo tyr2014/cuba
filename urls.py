@@ -14,9 +14,9 @@ urlpatterns = patterns('',
   url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
   url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
   url(r'^signup/$', UserCreateView.as_view()),
-  (r'^account/', include('cuba.urls.accounts')),
-  (r'^activity/', include('cuba.urls.activities')),
-  (r'^order/', include('cuba.urls.orders')),
+  url(r'^account/', include('cuba.urls.accounts')),
+  url(r'^activity/', include('cuba.urls.activities')),
+  url(r'^order/', include('cuba.urls.orders')),
 
 
   # Examples:
@@ -28,4 +28,5 @@ urlpatterns = patterns('',
 
   # Uncomment the next line to enable the admin:
   url(r'^admin/', include(admin.site.urls)),
+  url(r'^comments/', include('django.contrib.comments.urls')),
 )

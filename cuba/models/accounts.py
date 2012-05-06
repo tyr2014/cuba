@@ -5,9 +5,9 @@ from django.contrib.contenttypes import generic
 
 from django.db import models
 from django.contrib.auth.models import User
+from cuba.models.fields.fields import UpYunFileField
 from cuba.models.generics import TaggedItem
 from cuba.models.mixins.locatable import Locatable
-from cuba.models.photos import Photo
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
@@ -43,12 +43,12 @@ class UserProfile(Locatable):
     verbose_name = verbose_name_plural = _('个人档案')
 
   # management info
-  user = models.OneToOneField(User)
+  user = models.OneToOneField(User, verbose_name=_('用户账号'), help_text=_(''))
   slug = models.CharField(_('个人的唯一URL'), max_length=const.NAME_LENGTH, help_text=_(''), unique=True)
 
   # basic personal info
   fullname = models.CharField(_('姓名'), max_length=const.NAME_LENGTH, help_text=_(''))
-  avatar = models.OneToOneField(Photo, blank=True, null=True)
+  avatar = UpYunFileField(verbose_name=_('头像'), help_text=_(''), blank=True, null=True)
   gender = models.CharField(_('性别'), max_length=1, choices=const.USER_GENDER_CHOICES, help_text=_(''))
   birthday = models.DateField(_('生日'), help_text=_(''), blank=True, null=True)
 
@@ -59,10 +59,6 @@ class UserProfile(Locatable):
   philosophy = models.CharField(_('旅行哲学'), max_length=const.DESCRIPTION_LENGTH,
                                 help_text=_(''),
                                 blank=True, default='')
-
-  country_code = models.CharField(_('国家'), max_length=6, choices=const.USER_COUNTRY_CODE_CHOICES,
-                                  help_text=_(''),
-                                  default='+86')
 
   cell_phone = models.CharField(_('手机号码'), max_length=11,
                                 help_text=_(''),

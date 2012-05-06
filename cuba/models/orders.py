@@ -25,7 +25,7 @@ class Order(Ownable, Expirable, CacheableMixin):
     unique_together = (('author', 'activity'), )
     verbose_name = verbose_name_plural = _('订单')
 
-  activity = models.ForeignKey(Activity)
+  activity = models.ForeignKey(Activity, verbose_name=_('活动'))
 
   # basic information
   total_participants = models.SmallIntegerField(_('预订人数'), help_text=_(''), default=1)

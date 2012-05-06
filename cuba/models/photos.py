@@ -31,16 +31,17 @@ class Photo(Ownable):
                                   help_text=_(''),
                                   default=1)
 
-  filename = UpYunFileField(_('文件名'), help_text=_(''))
+  filename = UpYunFileField(verbose_name = _('文件名'), help_text=_(''))
 
   description = models.CharField(_('照片描述'), max_length=const.DESCRIPTION_LENGTH,
                                  help_text=_(''),
                                  blank=True, default='')
 
-  activity = models.ManyToManyField(Activity, blank=True, null=True)
+  activity = models.ManyToManyField(Activity, verbose_name=_('活动'), blank=True, null=True)
 
   # management info
-  resize_done = models.BooleanField(default=False)
+  # Not needed for using external storage
+  #resize_done = models.BooleanField(default=False)
 
   def __unicode__(self):
     if self.title:

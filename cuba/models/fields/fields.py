@@ -7,8 +7,11 @@ from cuba.forms.fields.fields import TagField as FormTagField, TitleField as For
 from django.db import models
 from cuba.utils import const
 from cuba.utils.storages import UpYunStorage
+from cuba.utils.alias import tran_lazy as _
 
 MAX_TAG_LENGTH = 16
+MAX_TITLE_LENGTH = const.TITLE_LENGTH
+MAX_NAME_LENGTH = const.NAME_LENGTH
 
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.TagField"])
@@ -16,12 +19,15 @@ add_introspection_rules([], ["^cuba\.models\.fields\.fields\.TitleField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.SeparatedValuesField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.UpYunFileField"])
 add_introspection_rules([], ["^cuba\.models\.fields\.fields\.UpYunImageField"])
+add_introspection_rules([], ["^cuba\.models\.fields\.fields\.FloatRangeField"])
+add_introspection_rules([], ["^cuba\.models\.fields\.fields\.UniqueNameField"])
+add_introspection_rules([], ["^cuba\.models\.fields\.fields\.IntegerRangeField"])
 
 class TagField(models.CharField):
-  description = "请输入最多%(max_length)s个字符"
+  description = _("请输入最多%(max_length)s个字符")
   def __init__(self, *args, **kwargs):
 
-    kwargs['max_length'] = kwargs.get('max_length', 16)
+    kwargs['max_length'] = kwargs.get('max_length', MAX_TAG_LENGTH)
     # Set db_index=True unless it's been set manually.
     if 'db_index' not in kwargs:
       kwargs['db_index'] = True
@@ -33,9 +39,9 @@ class TagField(models.CharField):
     return super(TagField, self).formfield(**defaults)
 
 class TitleField(models.CharField):
-  description = "请输入最多%(max_length)s个字符"
+  description = _("请输入最多%(max_length)s个字符")
   def __init__(self, *args, **kwargs):
-    kwargs['max_length'] = kwargs.get('max_length', const.TITLE_LENGTH)
+    kwargs['max_length'] = kwargs.get('max_length', MAX_TITLE_LENGTH)
     super(TitleField, self).__init__(*args, **kwargs)
 
   def formfield(self, **kwargs):
@@ -96,3 +102,46 @@ class UpYunImageField(models.ImageField):
     storage = set_storage(bucket)
     upload_to = set_upload_to(upload_to)
     super(UpYunImageField, self).__init__(verbose_name, name, upload_to=upload_to, storage=storage, **kwargs)
+
+
+class FloatRangeField(models.FloatField):
+  def __init__(self, *args, **kwargs):
+    self.min_value = kwargs.pop('min_value', None)
+    self.max_value = kwargs.pop('max_value', None)
+    super(FloatRangeField, self).__init__(self, *args, **kwargs)
+
+  def formfield(self, **kwargs):
+    defaults = {}
+    if self.min_value:
+      defaults['min_value'] = self.min_value
+    if self.max_value:
+      defaults['max_value'] = self.max_value
+    defaults.update(kwargs)
+    return super(FloatRangeField, self).formfield(**defaults)
+
+class IntegerRangeField(models.IntegerField):
+  def __init__(self, *args, **kwargs):
+    self.min_value = kwargs.pop('min_value', None)
+    self.max_value = kwargs.pop('max_value', None)
+    super(IntegerRangeField, self).__init__(self, *args, **kwargs)
+
+  def formfield(self, **kwargs):
+    defaults = {}
+    if self.min_value:
+      defaults['min_value'] = self.min_value
+    if self.max_value:
+      defaults['max_value'] = self.max_value
+    defaults.update(kwargs)
+    return super(IntegerRangeField, self).formfield(**defaults)
+
+class UniqueNameField(models.CharField):
+  description = _("请输入最多%(max_length)s个字符, 且不与已有名称重复")
+  def __init__(self, *args, **kwargs):
+    kwargs['max_length'] = kwargs.get('max_length', MAX_NAME_LENGTH)
+
+    if 'unique' not in kwargs:
+      kwargs['unique'] = True
+    super(UniqueNameField, self).__init__(*args, **kwargs)
+
+  def formfield(self, **kwargs):
+    return super(UniqueNameField, self).formfield(**kwargs)

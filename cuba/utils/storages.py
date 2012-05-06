@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.core.files.base import File
 from django.core.files.storage import Storage
 from django.conf import settings
 from cuba.vendors.upyun import UpYun
 from urlparse import urljoin
 
-
+import logging
+logger = logging.getLogger(__name__)
 
 class UpYunStorage(Storage):
   def __init__(self, bucket=settings.UPYUN_BUCKET):

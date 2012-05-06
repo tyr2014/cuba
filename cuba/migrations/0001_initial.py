@@ -11,7 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'Country'
         db.create_table(u'cuba_country', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=32)),
+            ('name', self.gf('cuba.models.fields.fields.UniqueNameField')(unique=True, max_length=32)),
+            ('phone_prefix', self.gf('django.db.models.fields.CharField')(max_length=32)),
         ))
         db.send_create_signal(u'cuba', ['Country'])
 
@@ -26,7 +27,7 @@ class Migration(SchemaMigration):
         # Adding model 'Activity'
         db.create_table(u'cuba_activity', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 5, 5, 21, 47, 9, 5))),
+            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 5, 6, 14, 47, 47, 6))),
             ('expiry_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('status', self.gf('django.db.models.fields.IntegerField')(default=2)),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=128, null=True, blank=True)),
@@ -35,8 +36,10 @@ class Migration(SchemaMigration):
             ('city', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'activitys', null=True, to=orm['cuba.City'])),
             ('country', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'activitys', null=True, to=orm['cuba.Country'])),
             ('address', self.gf('django.db.models.fields.CharField')(max_length=1000, null=True, blank=True)),
+            (u'\u7eac\u5ea6', self.gf('cuba.models.fields.fields.FloatRangeField')(default=0, blank=True)),
+            (u'\u7ecf\u5ea6', self.gf('cuba.models.fields.fields.FloatRangeField')(default=0, blank=True)),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('title', self.gf('cuba.models.fields.fields.TitleField')(max_length=45)),
+            ('title', self.gf('cuba.models.fields.fields.TitleField')(unique=True, max_length=45)),
             ('cover', self.gf('django.db.models.fields.related.OneToOneField')(related_name=u'activity_with_cover', unique=True, to=orm['cuba.Photo'])),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=1000)),
             ('physical_level', self.gf('django.db.models.fields.SmallIntegerField')(default=1)),
@@ -52,7 +55,7 @@ class Migration(SchemaMigration):
             ('cost_description', self.gf('django.db.models.fields.CharField')(default=u'', max_length=1000, blank=True)),
             ('min_participants', self.gf('django.db.models.fields.IntegerField')()),
             ('max_participants', self.gf('django.db.models.fields.IntegerField')()),
-            ('cancel_policy', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.CancelPolicy'], null=True, blank=True)),
+            ('cancel_policy', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.CancelPolicy'])),
             ('map', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'activity_with_map_set', null=True, to=orm['cuba.Photo'])),
         ))
         db.send_create_signal(u'cuba', ['Activity'])
@@ -113,7 +116,6 @@ class Migration(SchemaMigration):
             ('type', self.gf('django.db.models.fields.SmallIntegerField')(default=1)),
             ('filename', self.gf('cuba.models.fields.fields.UpYunFileField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.CharField')(default=u'', max_length=1000, blank=True)),
-            ('resize_done', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'cuba', ['Photo'])
 
@@ -131,16 +133,17 @@ class Migration(SchemaMigration):
             ('city', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'userprofiles', null=True, to=orm['cuba.City'])),
             ('country', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name=u'userprofiles', null=True, to=orm['cuba.Country'])),
             ('address', self.gf('django.db.models.fields.CharField')(max_length=1000, null=True, blank=True)),
+            (u'\u7eac\u5ea6', self.gf('cuba.models.fields.fields.FloatRangeField')(default=0, blank=True)),
+            (u'\u7ecf\u5ea6', self.gf('cuba.models.fields.fields.FloatRangeField')(default=0, blank=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('slug', self.gf('django.db.models.fields.CharField')(unique=True, max_length=32)),
             ('fullname', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('avatar', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cuba.Photo'], unique=True, null=True, blank=True)),
+            ('avatar', self.gf('cuba.models.fields.fields.UpYunFileField')(max_length=100, null=True, blank=True)),
             ('gender', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('birthday', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('bio', self.gf('django.db.models.fields.CharField')(default=u'', max_length=1000, blank=True)),
             ('languages', self.gf('django.db.models.fields.CharField')(default=u'', max_length=1000, blank=True)),
             ('philosophy', self.gf('django.db.models.fields.CharField')(default=u'', max_length=1000, blank=True)),
-            ('country_code', self.gf('django.db.models.fields.CharField')(default=u'+86', max_length=6)),
             ('cell_phone', self.gf('django.db.models.fields.CharField')(default=u'', max_length=11, blank=True)),
             ('occupation', self.gf('django.db.models.fields.CharField')(default=u'', max_length=4, blank=True)),
             ('education', self.gf('django.db.models.fields.CharField')(default=u'', max_length=2, blank=True)),
@@ -157,10 +160,35 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'cuba', ['UserSnsInfo'])
 
+        # Adding model 'RatingEntry'
+        db.create_table(u'cuba_rating_entry', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('rating', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.Rating'])),
+            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.Category'])),
+            (u'\u8bc4\u5206', self.gf('cuba.models.fields.fields.IntegerRangeField')()),
+        ))
+        db.send_create_signal(u'cuba', ['RatingEntry'])
+
+        # Adding unique constraint on 'RatingEntry', fields ['rating', 'category']
+        db.create_unique(u'cuba_rating_entry', ['rating_id', 'category_id'])
+
+        # Adding model 'Rating'
+        db.create_table(u'cuba_rating', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('target', self.gf('django.db.models.fields.related.ForeignKey')(related_name=u'user_rated_set', to=orm['auth.User'])),
+            ('activity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.Activity'])),
+            ('content', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+        ))
+        db.send_create_signal(u'cuba', ['Rating'])
+
+        # Adding unique constraint on 'Rating', fields ['activity', 'author', 'target']
+        db.create_unique(u'cuba_rating', ['activity_id', 'author_id', 'target_id'])
+
         # Adding model 'Order'
         db.create_table('cuba_order', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 5, 5, 21, 47, 9, 5))),
+            ('created_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2012, 5, 6, 14, 47, 47, 6))),
             ('expiry_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('activity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cuba.Activity'])),
@@ -208,6 +236,12 @@ class Migration(SchemaMigration):
         # Removing unique constraint on 'Order', fields ['author', 'activity']
         db.delete_unique('cuba_order', ['author_id', 'activity_id'])
 
+        # Removing unique constraint on 'Rating', fields ['activity', 'author', 'target']
+        db.delete_unique(u'cuba_rating', ['activity_id', 'author_id', 'target_id'])
+
+        # Removing unique constraint on 'RatingEntry', fields ['rating', 'category']
+        db.delete_unique(u'cuba_rating_entry', ['rating_id', 'category_id'])
+
         # Removing unique constraint on 'Category', fields ['name', 'for_model']
         db.delete_unique(u'cuba_category', ['name', 'for_model'])
 
@@ -246,6 +280,12 @@ class Migration(SchemaMigration):
 
         # Deleting model 'UserSnsInfo'
         db.delete_table(u'cuba_user_sns_info')
+
+        # Deleting model 'RatingEntry'
+        db.delete_table(u'cuba_rating_entry')
+
+        # Deleting model 'Rating'
+        db.delete_table(u'cuba_rating')
 
         # Deleting model 'Order'
         db.delete_table('cuba_order')
@@ -301,15 +341,15 @@ class Migration(SchemaMigration):
             'activity_info': ('django.db.models.fields.TextField', [], {'default': "u''", 'max_length': '8192', 'blank': 'True'}),
             'address': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True', 'blank': 'True'}),
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'cancel_policy': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.CancelPolicy']", 'null': 'True', 'blank': 'True'}),
-            'category': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['cuba.Category']", 'null': 'True', 'blank': 'True'}),
+            'cancel_policy': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.CancelPolicy']"}),
+            'category': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['cuba.Category']", 'symmetrical': 'False'}),
             'city': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'activitys'", 'null': 'True', 'to': u"orm['cuba.City']"}),
             'code': ('django.db.models.fields.CharField', [], {'max_length': '128', 'null': 'True', 'blank': 'True'}),
             'cost': ('django.db.models.fields.IntegerField', [], {}),
             'cost_description': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'activitys'", 'null': 'True', 'to': u"orm['cuba.Country']"}),
             'cover': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "u'activity_with_cover'", 'unique': 'True', 'to': u"orm['cuba.Photo']"}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 5, 21, 47, 9, 5)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 6, 14, 47, 47, 6)'}),
             'currency': ('django.db.models.fields.CharField', [], {'default': "u'CNY'", 'max_length': '3'}),
             'datetime_description': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
@@ -327,7 +367,9 @@ class Migration(SchemaMigration):
             'short_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'start': ('django.db.models.fields.DateTimeField', [], {}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
-            'title': ('cuba.models.fields.fields.TitleField', [], {'max_length': '45'})
+            'title': ('cuba.models.fields.fields.TitleField', [], {'unique': 'True', 'max_length': '45'}),
+            u'\u7eac\u5ea6': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'}),
+            u'\u7ecf\u5ea6': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'})
         },
         u'cuba.cancelpolicy': {
             'Meta': {'object_name': 'CancelPolicy', 'db_table': "u'cuba_cancel_policy'"},
@@ -351,7 +393,8 @@ class Migration(SchemaMigration):
         u'cuba.country': {
             'Meta': {'object_name': 'Country'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '32'})
+            'name': ('cuba.models.fields.fields.UniqueNameField', [], {'unique': 'True', 'max_length': '32'}),
+            'phone_prefix': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         },
         u'cuba.coupon': {
             'Meta': {'object_name': 'Coupon'},
@@ -366,7 +409,7 @@ class Migration(SchemaMigration):
             'activity': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.Activity']"}),
             'actual_payment': ('django.db.models.fields.IntegerField', [], {}),
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 5, 21, 47, 9, 5)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 6, 14, 47, 47, 6)'}),
             'expiry_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'payed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -390,9 +433,23 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'filename': ('cuba.models.fields.fields.UpYunFileField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'resize_done': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'title': ('cuba.models.fields.fields.TitleField', [], {'default': "u''", 'max_length': '45', 'blank': 'True'}),
             'type': ('django.db.models.fields.SmallIntegerField', [], {'default': '1'})
+        },
+        u'cuba.rating': {
+            'Meta': {'unique_together': "((u'activity', u'author', u'target'),)", 'object_name': 'Rating'},
+            'activity': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.Activity']"}),
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
+            'content': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'target': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'user_rated_set'", 'to': "orm['auth.User']"})
+        },
+        u'cuba.ratingentry': {
+            'Meta': {'unique_together': "((u'rating', u'category'),)", 'object_name': 'RatingEntry', 'db_table': "u'cuba_rating_entry'"},
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.Category']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'rating': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.Rating']"}),
+            u'\u8bc4\u5206': ('cuba.models.fields.fields.IntegerRangeField', [], {})
         },
         u'cuba.taggeditem': {
             'Meta': {'object_name': 'TaggedItem', 'db_table': "u'cuba_tagged_item'"},
@@ -405,13 +462,12 @@ class Migration(SchemaMigration):
         u'cuba.userprofile': {
             'Meta': {'object_name': 'UserProfile', 'db_table': "u'cuba_user_profile'"},
             'address': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True', 'blank': 'True'}),
-            'avatar': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['cuba.Photo']", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'avatar': ('cuba.models.fields.fields.UpYunFileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'bio': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'birthday': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'cell_phone': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '11', 'blank': 'True'}),
             'city': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'userprofiles'", 'null': 'True', 'to': u"orm['cuba.City']"}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'userprofiles'", 'null': 'True', 'to': u"orm['cuba.Country']"}),
-            'country_code': ('django.db.models.fields.CharField', [], {'default': "u'+86'", 'max_length': '6'}),
             'education': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '2', 'blank': 'True'}),
             'fullname': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'gender': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
@@ -420,7 +476,9 @@ class Migration(SchemaMigration):
             'occupation': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '4', 'blank': 'True'}),
             'philosophy': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'slug': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '32'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'}),
+            u'\u7eac\u5ea6': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'}),
+            u'\u7ecf\u5ea6': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'})
         },
         u'cuba.usersnsinfo': {
             'Meta': {'object_name': 'UserSnsInfo', 'db_table': "u'cuba_user_sns_info'"},
