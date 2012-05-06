@@ -36,7 +36,7 @@ class Order(Ownable, Expirable, CacheableMixin):
   objects = OrderManager()
 
   def __unicode__(self):
-    return '%s:%s' % (self.activity, self.author)
+    return '%s:%s' % (self.activity.title, self.author.username)
 
   @property
   def order_number(self):

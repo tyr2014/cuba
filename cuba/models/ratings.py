@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from cuba.models.activities import Activity
 from cuba.models.fields.fields import IntegerRangeField
+from cuba.models.managers.rating import RatingManager
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
 
@@ -38,6 +39,8 @@ class Rating(Ownable):
   target = models.ForeignKey(User, verbose_name=_('对象'), related_name='user_rated_set')
   activity = models.ForeignKey(Activity, verbose_name=_('活动'))
   content = models.CharField(_('你的评价'), max_length=const.DESCRIPTION_LENGTH)
+
+  objects = RatingManager()
 
   def __unicode__(self):
     return '%s->%s:%s' % (self.author, self.target, self.content[:20])
