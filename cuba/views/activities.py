@@ -8,7 +8,6 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 import logging
 from django.views.generic.detail import DetailView
 from cuba.models.activities import Activity
-from cuba.models.orders import Order
 from cuba.utils.helper import get_url_by_conf
 
 logger = logging.getLogger(__name__)
@@ -44,10 +43,29 @@ class ActivityDetailView(DetailView):
     context = super(ActivityDetailView, self).get_context_data(**kwargs)
 
     activity = context['activity']
-    context['orders'] = activity.order_set.all()
+    author = activity.author
+    user = self.request.user
+    orders = list(activity.order_set.active())
+
+    role = 0 # not ordered
+    if not user.is_authenticated():
+      role = 0
+    elif user.pk == author.pk:
+      role = 1 # author
+    else:
+      user_orders = user.get_order(activity)
+      if len(user_orders) > 0:
+        role = 2 # booked
+        context['order'] = user_orders[0]
+        if user_orders[0].payed:
+          role = 3 # payed
+
+    context['role'] = role
+
+
+    context['orders'] = orders
     context['author'] = activity.author
     context['profile'] = activity.author.get_profile()
-
     context['cover'] = activity.cover.get_full_url()
     context['categories'] = [c.name for c in activity.category.all()]
     diff = (activity.expiry_date - datetime.now()).total_seconds()
@@ -56,7 +74,7 @@ class ActivityDetailView(DetailView):
     else:
       context['deadline'] = 0
 
-    open_seats = activity.max_participants - Order.objects.activity(activity.pk).count()
+    open_seats = activity.max_participants - len(orders)
     context['open_seats'] = open_seats
 
     return context

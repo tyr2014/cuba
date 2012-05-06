@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.contrib.auth.models import User
 
 from django.db import models
 from cuba.models.activities import Activity
@@ -36,7 +35,7 @@ class Rating(Ownable):
     verbose_name = verbose_name_plural = _('点评')
     unique_together = (('activity', 'author', 'target'), )
 
-  target = models.ForeignKey(User, verbose_name=_('对象'), related_name='user_rated_set')
+  target = models.ForeignKey('UserProxy', verbose_name=_('对象'), related_name='user_rated_set')
   activity = models.ForeignKey(Activity, verbose_name=_('活动'))
   content = models.CharField(_('你的评价'), max_length=const.DESCRIPTION_LENGTH)
 

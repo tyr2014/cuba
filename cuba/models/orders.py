@@ -2,7 +2,6 @@
 
 from django.db import models
 from cuba.models.activities import Activity
-from django.contrib.auth.models import User
 from django.utils.datetime_safe import datetime
 from datetime import timedelta
 
@@ -77,7 +76,7 @@ class OrderParticipant(models.Model):
   cell_phone = models.CharField(_('手机号码'), max_length=11,
                                 help_text=_(''), blank=True, null=True)
 
-  user = models.ForeignKey(User, blank=True, null=True)
+  user = models.ForeignKey('UserProxy', blank=True, null=True)
 
   def __unicode__(self):
     return '%s:%s' % (self.order_id, self.pk)

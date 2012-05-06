@@ -1,17 +1,28 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load general_filters %}
 {% block content %}
   <div class="row">
     <div class="span8">
-      <h1>{{ activity.title }}</h1>
+      <div class="page-header">
+        <h1>{{ activity.title }} <small>{{ activity.start.date.isoformat }} ~ {{ activity.end.date.isoformat }}</small></h1>
+      </div>
       <div class="row">
         <div class="span3">
           <ul style="list-style:none;">
-            <li>
-              <form action="{% url order_create activity.pk %}" method="post">{% csrf_token %}
-                <input type="submit" class="btn btn-primary btn-large" value="{{ activity.currency }}{{ activity.cost }}/人" />
-              </form>
-            </li>
+            <li><div class="well-large">
+              {% if role == 1 %}
+                {{ orders|length }}人已报名
+              {% elif role == 2 %}
+                您已报名 <a class="btn btn-primary" href="{% url order_detail order.pk %}">立即支付</a>
+              {% elif role == 3 %}
+                您已缴费 <a class="btn btn-primary" href="#">出行前准备</a>
+              {% else %}
+                <form action="{% url order_create activity.pk %}" method="post">{% csrf_token %}
+                  <input type="submit" class="btn btn-primary btn-large" value="{{ activity.currency }}{{ activity.cost }}/人" />
+                </form>
+              {% endif %}
+            </div></li>
             <li>报名截止：{{ deadline }}</li>
             <li>原价：
               <span style='color:red;text-decoration:line-through'>
@@ -64,7 +75,14 @@
         <blockquote><p>{{ profile.philosophy }}</p></blockquote>
 
       </div>
-
+      <div>
+        <h2>预订详情</h2>
+        <ul>
+          {% for o in orders %}
+            <li><a href="{% url user_detail o.author_id %}">{{ o.author.get_full_name }}</a>于{{ o.created_date|format_date }}下单</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
 

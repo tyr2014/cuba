@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.contrib.auth.models import User
 from django.views.generic.detail import DetailView
 
 from django.views.generic.edit import CreateView
 from cuba.forms.accounts import UserCreateForm
 
 import logging
-from cuba.models.accounts import UserProfile
+from cuba.models.accounts import UserProxy
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +22,7 @@ class UserCreateView(CreateView):
 
 class UserDetailView(DetailView):
   template_name = 'accounts/user_detail.html'
-  model = User
+  model = UserProxy
   context_object_name = 'user'
 
   def get_context_data(self, **kwargs):

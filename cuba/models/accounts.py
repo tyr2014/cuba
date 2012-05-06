@@ -22,6 +22,9 @@ class UserProxy(User):
     app_label = 'cuba'
     proxy = True
 
+  def get_full_name(self):
+    return '%s%s' % (self.last_name, self.first_name)
+
   def create_activity(self):
     raise NotImplemented
 
@@ -38,6 +41,12 @@ class UserProxy(User):
     order = Order.objects.ordered(self.pk, activity.pk)
     return order
 
+  def get_payed_order(self, activity):
+    from cuba.models import Order
+    order = Order.objects.payed(self.pk, activity.pk)
+    return order
+
+
 
 class UserProfile(Locatable):
   class Meta:
@@ -46,7 +55,7 @@ class UserProfile(Locatable):
     verbose_name = verbose_name_plural = _('个人档案')
 
   # management info
-  user = models.OneToOneField(User, verbose_name=_('用户账号'), help_text=_(''))
+  user = models.OneToOneField('UserProxy', verbose_name=_('用户账号'), help_text=_(''))
   slug = models.CharField(_('个人的唯一URL'), max_length=const.NAME_LENGTH, help_text=_(''), unique=True)
 
   # basic personal info
