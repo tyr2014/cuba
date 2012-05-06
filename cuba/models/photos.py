@@ -23,6 +23,7 @@ class Photo(Ownable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_photo'
+    verbose_name = verbose_name_plural = _('照片')
 
   title = TitleField(_('照片名称'), help_text=_(''),blank=True, default='')
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.contrib.auth.models import User
 from django.db import models
 from cuba.models.fields.fields import TitleField
 from cuba.models.mixins.cacheable import CacheableMixin
@@ -19,7 +18,8 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_activity'
-    verbose_name_plural = 'activities'
+    verbose_name = verbose_name_plural = _('活动')
+
 
   # basic description
   title = TitleField(_('活动名称'), help_text=_('活动名称可以用来查找你的活动'))
@@ -40,7 +40,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
 #  category = models.IntegerField(_('类型'), choices=const.ACTIVITY_CATEGORY_CHOICES,
 #                                 help_text=_(''))
 
-  category = models.ManyToManyField('Category', blank=True, null=True)
+  category = models.ManyToManyField('Category', limit_choices_to={'for_model':'Activity'})
 
   provided = models.CharField(_('你将提供什么?'), max_length=const.DESCRIPTION_LENGTH,
                               help_text=_(''),
@@ -88,7 +88,7 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
 #                                   help_text=_(''),
 #                                   default=1)
 
-  cancel_policy = models.ForeignKey('CancelPolicy', blank=True, null=True)
+  cancel_policy = models.ForeignKey('CancelPolicy')
 
   # map info
   map = models.ForeignKey('Photo', verbose_name=_('地图'), related_name='activity_with_map_set',
@@ -104,6 +104,7 @@ class Coupon(Ownable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_coupon'
+    verbose_name = verbose_name_plural = _('优惠券')
 
   activity = models.ForeignKey('Activity')
   code = models.CharField(_('优惠券代码'), max_length=const.TITLE_LENGTH)

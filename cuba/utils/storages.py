@@ -10,7 +10,7 @@ class UpYunStorage(Storage):
   def __init__(self, bucket=settings.UPYUN_BUCKET):
     self.upyun = UpYun(bucket, settings.UPYUN_USERNAME, settings.UPYUN_PASSWORD)
     self.upyun.setApiDomain(settings.UPYUN_API_DOMAIN)
-    self.binding_domain = settings.UPYUN_BINDING_DOMAIN
+    self.binding_domain = settings.IMG_CDN_DOMAIN
 
 
   def _open(self, name, mode='rb'):

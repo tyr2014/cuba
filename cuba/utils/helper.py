@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import urlparse
-from cuba.utils.alias import tran as _
+#from cuba.utils.alias import tran as _
 from django.core.urlresolvers import reverse
 from django.http import QueryDict
 
@@ -40,3 +40,20 @@ def get_referer_url(request):
   elif get_full_path(referer_url) in ['/user/login/', '/register/']:
     referer_url = '/'
   return referer_url
+
+def get_category_model_choices(app_name='cuba'):
+  def f(item):
+    # TODO: FIXME: don't know why at the django start stage item.rel.to is basestring.
+    try:
+      return item.rel.to.__name__ == 'Category'
+    except Exception:
+      return item.rel.to == 'Category'
+
+  from django.db.models import get_models, get_app
+  names = []
+  for model in get_models(get_app(app_name)):
+    m2m = model._meta.many_to_many
+    if m2m and filter(f, m2m):
+      names.append(tuple([model.__name__, model._meta.verbose_name]))
+
+  return names

@@ -40,6 +40,7 @@ class UserProfile(Locatable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_user_profile'
+    verbose_name = verbose_name_plural = _('个人档案')
 
   # management info
   user = models.OneToOneField(User)
@@ -86,6 +87,7 @@ class UserSnsInfo(models.Model):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_user_sns_info'
+    verbose_name = verbose_name_plural = _('社交网络绑定')
 
   # manage info
   user_profile = models.ForeignKey('UserProfile')

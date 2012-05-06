@@ -1,5 +1,7 @@
 # Django settings for cuba project.
 import os
+import sys
+from config import config
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 
@@ -155,35 +157,6 @@ INSTALLED_APPS = (
 
 AUTH_PROFILE_MODULE = 'cuba.UserProfile'
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-LOGGING = {
-  'version': 1,
-  'disable_existing_loggers': False,
-  'filters': {
-    'require_debug_false': {
-      '()': 'django.utils.log.RequireDebugFalse'
-    }
-  },
-  'handlers': {
-    'mail_admins': {
-      'level': 'ERROR',
-      'filters': ['require_debug_false'],
-      'class': 'django.utils.log.AdminEmailHandler'
-    }
-  },
-  'loggers': {
-    'django.request': {
-      'handlers': ['mail_admins'],
-      'level': 'ERROR',
-      'propagate': True,
-      },
-    }
-}
-
 INTERNAL_IPS = ('127.0.0.1',)
 
 DEBUG_TOOLBAR_PANELS = (
@@ -213,3 +186,128 @@ UPYUN_API_DOMAIN = 'v0.api.upyun.com'
 UPYUN_BUCKET = 'api-test'
 UPYUN_USERNAME = 'tukeq'
 UPYUN_PASSWORD = '1qaz2wsx'
+
+IMG_CDN_DOMAIN = UPYUN_BINDING_DOMAIN
+
+
+###############################################################
+##                        Logging                            ##
+###############################################################
+LOG_PATH = os.path.join(os.getcwd(), config.get('logging', 'log_path'))
+LOGGING_LEVEL = config.get('logging', 'log_level')
+
+AUDIT_LOG_FILENAME = '%s/toureet-audit.log' % LOG_PATH
+PROFILING_LOG_FILENAME = '%s/toureet-profiling.log' % LOG_PATH
+MAIN_LOG_FILENAME = '%s/toureet-web.log' % LOG_PATH
+LOST_LOG_FILENAME = '%s/toureet-lost.log' % LOG_PATH
+
+LOG_BACKUP_COUNT = 50
+LOG_MAX_BYTES = 5242880
+
+LOGGING_CONFIG = 'django.utils.log.dictConfig'
+LOGGING_HANDLER = 'cuba.utils.log.RotatingFileHandler'
+
+if 'test' not in sys.argv:
+  handler = ['console', 'main']
+else:
+  handler = ['main']
+
+LOGGING = {
+  'version': 1,
+  'disable_existing_loggers': True,
+  'formatters': {
+    'verbose': {
+      'format': '%(levelname)s %(asctime)s %(name)s %(processName)s[%(process)d] - %(message)s'
+    },
+    'simple': {
+      'format': '%(levelname)s %(asctime)s %(message)s'
+    },
+    'audit': {
+      'format': '%(asctime)s %(message)s'
+    },
+    'profiling': {
+      'format': '%(asctime)s %(message)s'
+    }
+
+  },
+  'filters': {
+
+  },
+  'handlers': {
+    'null': {
+      'level': 'DEBUG',
+      'class': 'django.utils.log.NullHandler',
+      },
+    'console': {
+      'level': LOGGING_LEVEL,
+      'class': 'logging.StreamHandler',
+      'formatter': 'simple'
+    },
+    'mail_admins': {
+      'level': 'ERROR',
+      'class': 'cuba.utils.admin_mail.AdminEmailHandler',
+      'include_html': True,
+      },
+    'main': {
+      'level': LOGGING_LEVEL,
+      'class': LOGGING_HANDLER,
+      'formatter': 'simple' if DEBUG else 'verbose',
+      'filename': MAIN_LOG_FILENAME,
+      'maxBytes': LOG_MAX_BYTES,
+      'backupCount': LOG_BACKUP_COUNT
+
+    },
+    'audit': {
+      'level': LOGGING_LEVEL,
+      'class': LOGGING_HANDLER,
+      'formatter': 'audit',
+      'filename': AUDIT_LOG_FILENAME,
+      #      'when': 'midnight',
+      'maxBytes': LOG_MAX_BYTES,
+      'backupCount': LOG_BACKUP_COUNT
+    },
+    'profiling': {
+      'level': 'DEBUG',
+      'class': LOGGING_HANDLER,
+      'formatter': 'audit',
+      'filename': PROFILING_LOG_FILENAME,
+      #      'when': 'midnight',
+      'maxBytes': LOG_MAX_BYTES,
+      'backupCount': LOG_BACKUP_COUNT
+    },
+    'lost':{
+      'level': 'DEBUG',
+      'class': LOGGING_HANDLER,
+      'formatter': 'audit',
+      'filename': LOST_LOG_FILENAME,
+      }
+  },
+  'loggers': {
+    'django': {
+      'handlers': ['null'],
+      'propagate': True,
+      'level': 'INFO',
+      },
+    'django.request': {
+      'handlers': ['console'] if DEBUG else ['main', 'mail_admins'],
+      'level': 'ERROR',
+      'propagate': False,
+      },
+    '': {
+      'handlers': handler if DEBUG else ['main', 'mail_admins'],
+      'level': LOGGING_LEVEL,
+      },
+    'profiles.actions': {
+      'handlers': ['audit'],
+      'level': 'INFO',
+      },
+    'core.profiling': {
+      'handlers': ['profiling'],
+      'level': 'DEBUG',
+      },
+    'lost':{
+      'handlers': ['lost'],
+      'lever': 'DEBUG',
+      }
+  }
+}

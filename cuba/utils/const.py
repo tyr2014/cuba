@@ -53,10 +53,10 @@ ACTIVITY_CURRENCY_CHOICES = (
   ('EUR', _('欧元')),
 )
 
-ACTIVITY_CANCEL_POLICY_CHOICES = (
-  (1, _('除特别声名, 提前一天取消可返回全部费用')),
-  (2, _('不予返还')),
-)
+#ACTIVITY_CANCEL_POLICY_CHOICES = (
+#  (1, _('除特别声名, 提前一天取消可返回全部费用')),
+#  (2, _('不予返还')),
+#)
 
 PHOTO_TYPE_CHOICES = (
   (1, _('活动描述')),

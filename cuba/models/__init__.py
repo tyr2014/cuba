@@ -1,4 +1,4 @@
-from activities import Activity
+from activities import Activity, Coupon
 from accounts import UserProfile, UserSnsInfo
 from orders import Order, OrderParticipant
 from photos import Photo
@@ -9,16 +9,18 @@ from generics import TaggedItem, CancelPolicy, Category
 
 __all__ = [
   Activity,
-  UserProfile,
-  UserSnsInfo,
+  CancelPolicy,
+  Category,
+  City,
+  Country,
+  Coupon,
   Order,
   OrderParticipant,
   Photo,
-  Video,
-  City,
-  Country,
-  Video,
   TaggedItem,
-  CancelPolicy,
-  Category,
+  UserProfile,
+  UserSnsInfo,
+  Video,
+  Video,
+
 ]

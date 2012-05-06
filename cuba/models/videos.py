@@ -15,6 +15,7 @@ class Video(Ownable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_video'
+    verbose_name = verbose_name_plural = _('视频')
 
   title = TitleField(_('视频名称'), help_text=_(''), blank=True, default='')
 

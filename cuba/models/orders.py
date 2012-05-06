@@ -23,6 +23,7 @@ class Order(Ownable, Expirable, CacheableMixin):
     app_label = 'cuba'
     db_table = 'cuba_order'
     unique_together = (('author', 'activity'), )
+    verbose_name = verbose_name_plural = _('订单')
 
   activity = models.ForeignKey(Activity)
 
@@ -58,6 +59,7 @@ class OrderParticipant(models.Model):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_order_participants'
+    verbose_name = verbose_name_plural = _('订单参与人')
 
   order = models.ForeignKey(Order)
   name = models.CharField(_('姓名'), max_length=const.NAME_LENGTH,
