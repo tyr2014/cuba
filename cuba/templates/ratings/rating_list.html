@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  <div class="page-header">
+    <h1>{{ activity.name }}<small>大家一起来评分</small></h1>
+  </div>
+  <div class="hero-unit">
+    <h2>说说你对{{ activity.author.get_full_name }}的印象吧</h2>
+  </div>
+  <div class="row">
+    <div class="span4">
+      <h3></h3>
+    </div>
+    <div class="span4">
+
+    </div>
+
+  </div>
+
+{% endblock %}
