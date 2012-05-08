@@ -49,7 +49,7 @@ class ActivityAvailabilityForm(BootstrapModelForm):
 class ActivityPublishForm(BootstrapModelForm):
   class Meta:
     model = Activity
-    fields = ('status', 'publish_date', 'expiry_date')
+    fields = ('publish_status', 'publish_date', 'expiry_date')
     widgets = {
       'publish_date': DateTimeWidget(),
       'expiry_date': DateTimeWidget(),

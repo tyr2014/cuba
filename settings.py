@@ -2,6 +2,7 @@
 import os
 import sys
 from config import config
+import djcelery
 
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
 
@@ -154,6 +155,7 @@ INSTALLED_APPS = (
   'bootstrap',            # for display
   'djangorestframework',  # for generating api
   'debug_toolbar',        # for debug purpose
+  'djcelery',
 )
 
 AUTH_PROFILE_MODULE = 'cuba.UserProfile'
@@ -195,6 +197,18 @@ UPYUN_USERNAME = 'tukeq'
 UPYUN_PASSWORD = '1qaz2wsx'
 
 IMG_CDN_DOMAIN = UPYUN_BINDING_DOMAIN
+
+###############################################################
+##                        Celery setup                       ##
+###############################################################
+djcelery.setup_loader()
+BROKER_HOST = config.get('rabbitmq', 'host')
+BROKER_PORT = config.getint('rabbitmq', 'port')
+BROKER_USER = config.get('rabbitmq', 'user')
+BROKER_PASSWORD = config.get('rabbitmq', 'password')
+BROKER_VHOST = config.get('rabbitmq', 'vhost')
+
+CELERY_IMPORTS = ('cuba.tasks.crons', )
 
 
 ###############################################################

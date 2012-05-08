@@ -35,7 +35,7 @@ class Displayable(Expirable):
   website such as publishing fields. Basis of pages and .
   """
 
-  status = models.IntegerField(_('发布状态'),
+  publish_status = models.IntegerField(_('发布状态'),
                                choices=CONTENT_STATUS_CHOICES, default=CONTENT_STATUS_OPEN)
 
   code = models.CharField(_('私有代码'), max_length=CODE_LENGTH,
@@ -51,6 +51,6 @@ class Displayable(Expirable):
   def save(self, *args, **kwargs):
     if self.publish_date is None:
       self.publish_date = datetime.now()
-    if self.status == CONTENT_STATUS_PRIVATE:
+    if self.publish_status == CONTENT_STATUS_PRIVATE:
       self.code = md5(str(self)).hexdigest()
     super(Displayable, self).save(*args, **kwargs)
