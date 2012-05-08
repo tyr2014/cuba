@@ -63,3 +63,14 @@ PHOTO_TYPE_CHOICES = (
   (2, _('活动照片')),
   (3, _('地图')),
 )
+
+# activity state machine
+ACTIVITY_STATE_CANCELLED = 'cancelled'
+ACTIVITY_STATE_CREATED = 'created'
+ACTIVITY_STATE_PUBLISHED = 'published'
+ACTIVITY_STATE_ACTIVATED = 'activated'
+ACTIVITY_STATE_DEACTIVATED = 'deactivated'
+ACTIVITY_STATE_STARTED = 'started'
+ACTIVITY_STATE_ENDED = 'ended'
+ACTIVITY_STATE_CONFIRMED = 'confirmed'
+ACTIVITY_STATE_CLOSED = 'closed'
