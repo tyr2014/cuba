@@ -18,7 +18,7 @@ class Migration(SchemaMigration):
 
         # Adding field 'Activity.fsm'
         db.add_column(u'cuba_activity', 'fsm',
-                      self.gf('django.db.models.fields.SmallIntegerField')(default=u'created', blank=True),
+                      self.gf('django.db.models.fields.SmallIntegerField')(default=0, blank=True),
                       keep_default=False)
 
     def backwards(self, orm):
@@ -83,13 +83,13 @@ class Migration(SchemaMigration):
             'cost_description': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'country': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'activitys'", 'null': 'True', 'to': u"orm['cuba.Country']"}),
             'cover': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "u'activity_with_cover'", 'unique': 'True', 'to': u"orm['cuba.Photo']"}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 8, 20, 54, 35, 1)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 8, 22, 35, 9, 1)'}),
             'currency': ('django.db.models.fields.CharField', [], {'default': "u'CNY'", 'max_length': '3'}),
             'datetime_description': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '1000', 'blank': 'True'}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             'end': ('django.db.models.fields.DateTimeField', [], {}),
             'expiry_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'fsm': ('django.db.models.fields.SmallIntegerField', [], {'default': "u'created'", 'blank': 'True'}),
+            'fsm': ('django.db.models.fields.SmallIntegerField', [], {'default': '0', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lat': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'}),
             'lng': ('cuba.models.fields.fields.FloatRangeField', [], {'default': '0', 'blank': 'True'}),
@@ -144,7 +144,7 @@ class Migration(SchemaMigration):
             'activity': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cuba.Activity']"}),
             'actual_payment': ('django.db.models.fields.IntegerField', [], {}),
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
-            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 8, 20, 54, 35, 1)'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2012, 5, 8, 22, 35, 9, 1)'}),
             'expiry_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'payed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
