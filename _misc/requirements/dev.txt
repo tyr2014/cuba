@@ -6,6 +6,7 @@ django
 django-celery
 django-debug-toolbar
 django-extensions
+django-guardian
 django-jenkins
 django-nose
 django-pipeline==1.1.27
@@ -19,5 +20,6 @@ ipython
 mmseg
 PIL
 pyflakes
+pyyaml
 redis
 south
