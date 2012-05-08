@@ -1,0 +1,13 @@
+- model: cuba.country
+  pk: 1
+  fields: {name: "中国", phone_prefix: '+86'}
+
+- model: cuba.city
+  pk: 1
+  fields: {country: 1, name: "北京"}
+
+- model: cuba.cancelpolicy
+  pk: 1
+  fields:
+    name: "7天退款保证"
+    description: "除特别声名, 提前七天取消可返回全部费用"
