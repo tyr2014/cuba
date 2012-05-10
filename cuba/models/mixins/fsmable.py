@@ -28,13 +28,14 @@ class FSMable(models.Model):
 
   def can(self, event):
     action = self.fsmevents.get((event, self.fsm), None)
-    return action != None
+    return bool(action)
 
   def state_change(self, event):
     if not self.fsmevents:
       raise StateMachineNotProperlyConfigured
 
     action = self.fsmevents.get((event, self.fsm), None)
+
     if action:
       new_state = action['new_state']
       self.fsm = new_state

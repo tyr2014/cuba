@@ -108,8 +108,6 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable):
   def __unicode__(self):
     return self.title
 
-  def state_change(self, event):
-    pass
 
 class Coupon(Ownable):
   class Meta:
