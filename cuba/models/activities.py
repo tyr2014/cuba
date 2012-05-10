@@ -3,9 +3,11 @@
 from __future__ import unicode_literals
 from django.db import models
 from cuba.models.fields.fields import TitleField
+from cuba.models.fsm.activity import ACTIVITY_EVENTS
 from cuba.models.managers.core import ActivityManager
 from cuba.models.mixins.cacheable import CacheableMixin
 from cuba.models.mixins.displayable import Displayable
+from cuba.models.mixins.fsmable import FSMable
 from cuba.models.mixins.locatable import Locatable
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
@@ -15,11 +17,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Activity(Displayable, Ownable, Locatable, CacheableMixin):
+class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_activity'
     verbose_name = verbose_name_plural = _('活动')
+
 
 
   # basic description
@@ -97,13 +100,16 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin):
                           blank=True, null=True)
 
   # management info
-  fsm = models.SmallIntegerField(_('当前状态'), help_text=_(''),
-                                 blank=True, default=const.ACTIVITY_STATE_CREATED)
+
 
   objects = ActivityManager()
+  fsmevents = ACTIVITY_EVENTS
 
   def __unicode__(self):
     return self.title
+
+  def state_change(self, event):
+    pass
 
 class Coupon(Ownable):
   class Meta:

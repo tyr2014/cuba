@@ -38,12 +38,12 @@ class UserProxy(User):
 
   def get_order(self, activity):
     from cuba.models import Order
-    order = Order.objects.ordered(self.pk, activity.pk)
+    order = Order.objects.ordered(activity.pk, self.pk)
     return order
 
   def get_payed_order(self, activity):
     from cuba.models import Order
-    order = Order.objects.payed(self.pk, activity.pk)
+    order = Order.objects.payed(activity.pk, self.pk)
     return order
 
 

@@ -64,11 +64,22 @@ class LocatableManager(Manager):
       raise ValueError
 
 class OrderManager(ExpirableManager):
-  def ordered(self, user_id, activity_id):
-    return self.active().filter(Q(author_id=user_id) & Q(activity_id=activity_id))
+  def ordered(self, activity_id=None, user_id=None):
+    q = Q()
+    if activity_id:
+      q &= Q(activity_id=activity_id)
+    if user_id:
+      q &= Q(author_id=user_id)
+    return self.active().filter(q)
 
-  def payed(self, user_id, activity_id):
-    return self.ordered(user_id, activity_id).filter(payed=True)
+  def payed(self, activity_id=None, user_id=None):
+    return self.ordered(activity_id, user_id).filter(fsm=const.ORDER_STATE_PAYED)
+
+  def cancelled(self, activity_id=None, user_id=None):
+    return self.ordered(activity_id, user_id).filter(fsm=const.ORDER_STATE_CANCELLED)
+
+  def closed(self, activity_id=None, user_id=None):
+    return self.ordered(activity_id, user_id).filter(fsm=const.ORDER_STATE_CLOSED)
 
 class ActivityManager(DisplayableManager):
   def cancelled(self):
@@ -89,9 +100,6 @@ class ActivityManager(DisplayableManager):
 
   def ended(self):
     return self.filter(fsm=const.ACTIVITY_STATE_ENDED)
-
-  def confirmed(self):
-    return self.filter(fsm=const.ACTIVITY_STATE_CONFIRMED)
 
   def closed(self):
     return self.filter(fsm=const.ACTIVITY_STATE_CLOSED)

@@ -44,6 +44,6 @@ class OrderDetailView(DetailView):
 
   def post(self, request, pk, *args, **kwargs):
     order = get_object_or_404(Order, pk=pk)
-    order.payed = True
+    #order.payed = True
     order.save()
     return HttpResponseRedirect(get_url_by_conf('order_detail', args=[order.pk]))

@@ -4,11 +4,12 @@ from django.db import models
 from cuba.models.activities import Activity
 from django.utils.datetime_safe import datetime
 from datetime import timedelta
-
+from cuba.models.fsm.order import ORDER_EVENTS
 
 from cuba.models.managers.core import OrderManager
 from cuba.models.mixins.cacheable import CacheableMixin
 from cuba.models.mixins.expirable import Expirable
+from cuba.models.mixins.fsmable import FSMable
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
@@ -17,7 +18,7 @@ from cuba.utils import const
 import logging
 logger = logging.getLogger(__name__)
 
-class Order(Ownable, Expirable, CacheableMixin):
+class Order(Ownable, Expirable, CacheableMixin, FSMable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_order'
@@ -30,9 +31,10 @@ class Order(Ownable, Expirable, CacheableMixin):
   total_participants = models.SmallIntegerField(_('预订人数'), help_text=_(''), default=1)
   total_payment = models.IntegerField(_('应付金额'), help_text=_(''))
   actual_payment = models.IntegerField(_('实付金额'), help_text=_(''))
-  payed = models.BooleanField(_('是否已支付'), default=False)
+  #payed = models.BooleanField(_('是否已支付'), default=False)
 
   objects = OrderManager()
+  fsmevents = ORDER_EVENTS
 
   def __unicode__(self):
     return '%s:%s' % (self.activity.title, self.author.username)
