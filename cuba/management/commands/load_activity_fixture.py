@@ -6,6 +6,7 @@ from cuba.models import UserProxy
 from django.core.management.base import BaseCommand
 import json
 from django.utils.datetime_safe import datetime
+from cuba.models.accounts import UserProfile
 from cuba.models.activities import Activity
 from cuba.models.generics import Category, CancelPolicy
 from cuba.models.photos import Photo
@@ -29,6 +30,8 @@ class Command(BaseCommand):
     if created:
       # provide dummy password
       user.set_password('123456')
+      profile = UserProfile(user=user, slug=user.pk)
+      profile.save()
       user.save()
     return user
 

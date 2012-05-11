@@ -56,12 +56,12 @@ class UserProfile(Locatable):
 
   # management info
   user = models.OneToOneField('UserProxy', verbose_name=_('用户账号'), help_text=_(''))
-  slug = models.CharField(_('个人的唯一URL'), max_length=const.NAME_LENGTH, help_text=_(''), unique=True)
+  slug = models.SlugField(_('个人的唯一URL'), max_length=const.NAME_LENGTH, help_text=_(''), unique=True)
 
   # basic personal info
-  fullname = models.CharField(_('姓名'), max_length=const.NAME_LENGTH, help_text=_(''))
+  #fullname = models.CharField(_('姓名'), max_length=const.NAME_LENGTH, help_text=_(''))
   avatar = UpYunFileField(verbose_name=_('头像'), help_text=_(''), blank=True, null=True)
-  gender = models.CharField(_('性别'), max_length=1, choices=const.USER_GENDER_CHOICES, help_text=_(''))
+  gender = models.CharField(_('性别'), max_length=1, choices=const.USER_GENDER_CHOICES, help_text=_(''), default='M')
   birthday = models.DateField(_('生日'), help_text=_(''), blank=True, null=True)
 
   # profile
@@ -86,7 +86,7 @@ class UserProfile(Locatable):
   tags = generic.GenericRelation(TaggedItem)
 
   def __unicode__(self):
-    return self.fullname
+    return self.user.get_full_name()
 
   def get_avatar(self, size='square'):
     return get_image_by_type(self.avatar.url, size)
