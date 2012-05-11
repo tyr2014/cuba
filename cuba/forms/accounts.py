@@ -3,14 +3,14 @@
 from __future__ import unicode_literals
 from django.core import validators
 import re
-from cuba.models.accounts import UserProxy
+from cuba.models.accounts import User
 from cuba.utils.alias import tran as _
 from django import forms
 from bootstrap.forms import BootstrapModelForm
 
 class UserCreateForm(BootstrapModelForm):
   class Meta:
-    model = UserProxy
+    model = User
     fields = ('username', 'password', 'password2', 'email')
 
   username = forms.CharField(max_length=30, min_length=5,
@@ -24,7 +24,7 @@ class UserCreateForm(BootstrapModelForm):
 
   def clean_username(self):
     username = self.cleaned_data['username']
-    if UserProxy.objects.filter(username=username).exists():
+    if User.objects.filter(username=username).exists():
       raise forms.ValidationError(_('用户名已存在'))
     return username
 

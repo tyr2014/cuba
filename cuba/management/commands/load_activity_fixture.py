@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from datetime import timedelta
 import random
-from cuba.models import UserProxy
+from cuba.models import User
 from django.core.management.base import BaseCommand
 import json
 from django.utils.datetime_safe import datetime
@@ -22,11 +22,11 @@ class Command(BaseCommand):
       name = item['details']['发起人']
     except Exception:
       # return a user which exists
-      return UserProxy.objects.get(pk=1)
+      return User.objects.get(pk=1)
     last_name = name[0]
     first_name = name[1:]
     username = pinyinize(name)
-    user, created = UserProxy.objects.get_or_create(last_name=last_name, first_name=first_name, username=username)
+    user, created = User.objects.get_or_create(last_name=last_name, first_name=first_name, username=username)
     if created:
       # provide dummy password
       user.set_password('123456')

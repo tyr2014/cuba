@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes import generic
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as DjangoUser
 from cuba.models.fields.fields import UpYunFileField
 from cuba.models.generics import TaggedItem
 from cuba.models.mixins.locatable import Locatable
@@ -17,7 +17,7 @@ from cuba.utils.helper import get_image_by_type
 
 logger = logging.getLogger(__name__)
 
-class UserProxy(User):
+class User(DjangoUser):
   class Meta:
     app_label = 'cuba'
     proxy = True
@@ -55,7 +55,7 @@ class UserProfile(Locatable):
     verbose_name = verbose_name_plural = _('个人档案')
 
   # management info
-  user = models.OneToOneField('UserProxy', verbose_name=_('用户账号'), help_text=_(''))
+  user = models.OneToOneField('User', verbose_name=_('用户账号'), help_text=_(''))
   slug = models.SlugField(_('个人的唯一URL'), max_length=const.NAME_LENGTH, help_text=_(''), unique=True)
 
   # basic personal info

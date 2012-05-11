@@ -186,7 +186,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-CUSTOM_USER_MODEL = ('cuba', 'UserProxy')
+CUSTOM_USER_MODEL = ('cuba', 'User')
 
 # upyun related settings
 USE_UPYUN = True

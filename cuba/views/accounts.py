@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 from cuba.forms.accounts import UserCreateForm
 
 import logging
-from cuba.models.accounts import UserProxy
+from cuba.models.accounts import User
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class UserCreateView(CreateView):
 
 class UserDetailView(DetailView):
   template_name = 'accounts/user_detail.html'
-  model = UserProxy
+  model = User
   context_object_name = 'user'
 
   def get_context_data(self, **kwargs):
