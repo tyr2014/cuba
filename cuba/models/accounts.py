@@ -89,7 +89,9 @@ class UserProfile(Locatable):
     return self.user.get_full_name()
 
   def get_avatar(self, size='square'):
-    return get_image_by_type(self.avatar.url, size)
+    if self.avatar:
+      return get_image_by_type(self.avatar.url, size)
+    return ''
 
 
 
