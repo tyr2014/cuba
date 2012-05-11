@@ -16,9 +16,11 @@ class ExtendedFile(File):
   This class is used for working with models
   '''
   def __init__(self, file, name=None):
+    super(ExtendedFile, self).__init__(file, name)
     if isinstance(file, urllib2.addinfourl):
       self.url = file.url
-    super(ExtendedFile, self).__init__(file, name)
+      self._size = int(self.file.headers.get('content-length'))
+
 
   def open(self, mode=None):
     if isinstance(file, urllib2.addinfourl):
@@ -27,7 +29,7 @@ class ExtendedFile(File):
       super(ExtendedFile, self).open(mode)
 
   def _get_size(self):
-    if isinstance(file, urllib2.addinfourl):
+    if not hasattr(self, '_size') and isinstance(file, urllib2.addinfourl):
       self._size = int(self.file.headers.get("content-length"))
       return self._size
     else:

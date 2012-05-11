@@ -42,7 +42,7 @@ class Command(BaseCommand):
     for url in item['images']:
       photo = Photo()
       photo.author = user
-      photo.filename = ExtendedFile(urllib2.urlopen(url))
+      photo.filename = ExtendedFile(urllib2.urlopen(url), 'dummy.jpg')
       photo.save()
       photos.append(photo)
 
