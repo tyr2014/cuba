@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from datetime import timedelta
 import random
-from django.contrib.auth.models import User
+from cuba.models import UserProxy
 from django.core.management.base import BaseCommand
 import json
 from django.utils.datetime_safe import datetime
@@ -21,11 +21,11 @@ class Command(BaseCommand):
       name = item['details']['发起人']
     except Exception:
       # return a user which exists
-      return User.objects.get(pk=1)
+      return UserProxy.objects.get(pk=1)
     last_name = name[0]
     first_name = name[1:]
     username = pinyinize(name)
-    user, created = User.objects.get_or_create(last_name=last_name, first_name=first_name, username=username)
+    user, created = UserProxy.objects.get_or_create(last_name=last_name, first_name=first_name, username=username)
     if created:
       # provide dummy password
       user.set_password('123456')
@@ -34,13 +34,6 @@ class Command(BaseCommand):
 
   def process_activity(self, item, user):
     import urllib2
-
-    a = Activity()
-    a.title = item['title']
-    a.author = user
-    a.description = item['description'][:50]
-    a.activity_info = item['description']
-    a.crawl_url = item['id']
     photos = []
 
     for url in item['images']:
@@ -50,11 +43,22 @@ class Command(BaseCommand):
       photo.save()
       photos.append(photo)
 
-    if photos:
-      a.photo_set.add(photos)
-      a.cover = photos[0]
+    if not photos:
+      print 'Activity %s has no images, skip.' % item['title']
+      return
 
-    a.category.add(random.choice(self.categories))
+    if Activity.objects.filter(title=item['title']).exists():
+      print 'Activity %s has been created already.' % item['title']
+      return
+
+    a = Activity()
+    a.city_id = 1
+    a.country_id = 1
+    a.title = item['title']
+    a.author = user
+    a.description = item['description'][:50]
+    a.activity_info = item['description']
+    a.crawl_url = item['id']
     a.publish_date = datetime.now() + timedelta(days=random.randrange(0, 10))
     a.expiry_date = a.publish_date + timedelta(days=random.randrange(3, 14))
     a.start = a.expiry_date + timedelta(days=random.randrange(1, 7))
@@ -64,10 +68,15 @@ class Command(BaseCommand):
     a.min_participants = random.randrange(2, 15)
     a.max_participants = a.min_participants + random.randrange(0, 15)
     a.cancel_policy = random.choice(self.policies)
+    a.cover = photos[0]
+    a.save()
+
+    # process m2m fields
+    a.category.add(random.choice(self.categories))
+    for photo in photos:
+      a.photo_set.add(photo)
     a.save()
     print 'Activity %s processed' % a.title
-
-
 
 
   def handle(self, filename, *args, **options):
