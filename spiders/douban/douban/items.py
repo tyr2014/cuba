@@ -6,6 +6,7 @@
 from scrapy.item import Item, Field
 
 class Activity(Item):
+  id = Field()
   title = Field()
   images = Field()
   details = Field()

@@ -21,3 +21,8 @@ else:
 
   def tran_noop(s):
     return ugettext_noop(s)
+
+
+def pinyinize(str):
+  from unidecode import unidecode
+  return unidecode(str)

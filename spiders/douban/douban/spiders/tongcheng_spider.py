@@ -35,7 +35,7 @@ class TongChengSpider(BaseSpider):
 
     last_page = int(self.href(last_page_node).split('=')[1])
     pages = range(10, last_page, 10)
-    pages = []
+    #pages = []
 
     for page in pages:
       page_url = response.url + '?start=' + str(page)
@@ -72,6 +72,7 @@ class TongChengSpider(BaseSpider):
       photo_urls = map(lambda x:x.replace('albumicon', 'photo'), photo_urls)
 
       entry = Activity()
+      entry['id'] = response.url
       entry['title'] = title
       entry['description'] = description
       entry['images'] = photo_urls

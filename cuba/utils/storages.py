@@ -6,9 +6,32 @@ from django.core.files.storage import Storage
 from django.conf import settings
 from cuba.vendors.upyun import UpYun
 from urlparse import urljoin
+import urllib2
 
 import logging
 logger = logging.getLogger(__name__)
+
+class ExtendedFile(File):
+  '''
+  This class is used for working with models
+  '''
+  def __init__(self, file, name=None):
+    if isinstance(file, urllib2.addinfourl):
+      self.url = file.url
+    super(ExtendedFile, self).__init__(file, name)
+
+  def open(self, mode=None):
+    if isinstance(file, urllib2.addinfourl):
+      self.file = urllib2.urlopen(self.url)
+    else:
+      super(ExtendedFile, self).open(mode)
+
+  def _get_size(self):
+    if isinstance(file, urllib2.addinfourl):
+      self._size = int(self.file.headers.get("content-length"))
+      return self._size
+    else:
+      return super(ExtendedFile, self)._get_size()
 
 class UpYunStorage(Storage):
   def __init__(self, bucket=settings.UPYUN_BUCKET):

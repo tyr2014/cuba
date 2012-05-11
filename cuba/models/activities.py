@@ -81,11 +81,10 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable):
                                       help_text=_(''),
                                       blank=True, default='')
 
-  # first 16 bits for min, last 16 bits for max
-  min_participants = models.IntegerField(_('人数下限'),
+  min_participants = models.SmallIntegerField(_('人数下限'),
                                          help_text=_(''))
 
-  max_participants = models.IntegerField(_('人数上限'),
+  max_participants = models.SmallIntegerField(_('人数上限'),
                                          help_text=_(''))
 
 #  cancel_policy = models.SmallIntegerField(_('取消政策'), choices=const.ACTIVITY_CURRENCY_CHOICES,
@@ -101,6 +100,10 @@ class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable):
 
   # management info
 
+  # crawled info
+  crawl_url = models.CharField(_('来源'), max_length=const.URL_LENGTH,
+                               help_text=_(''),
+                               blank=True, null=True)
 
   objects = ActivityManager()
   fsmevents = ACTIVITY_EVENTS

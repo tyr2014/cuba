@@ -49,7 +49,7 @@ class Photo(Ownable):
     if self.title:
       return self.title
     else:
-      return self.filename
+      return self.filename.name
 
   def save(self, force_insert=False, force_update=False, using=None):
     super(Photo, self).save(force_insert, force_update, using)
