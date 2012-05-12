@@ -1,19 +1,30 @@
 
+.box(@size, @opacity, @bg) {
+  /* TODO: change this to the correct profile default background. */
+  padding: @size;
+  .border-radius(@size);
+  .opacity(@opacity);
+  background-color: @bg;
+}
+
+.profile-box {
+  .box(10px, 90, #fff);
+  margin-bottom: 10px;
+}
 body.profilepage {
   background-color: #000000;
+  background-image: url(http://api-test.b0.upaiyun.com/2e5272608ccd4af0b0b8ba9b37fd41e4.jpg);
 }
 
 .profile {
-  /* TODO: change this to the correct profile default background. */
-  background-image: url(http://api-test.b0.upaiyun.com/2e5272608ccd4af0b0b8ba9b37fd41e4.jpg);
+  .box(10px, 90, #eee);
   .head {
     h1.name {
-      font-family: english-small-caps-1,english-small-caps-2, "proxima-nova-1", "proxima-nova-2", Tahoma, Helvetica, Verdana, sans-serif;
-      font-size: 60px;
+      font-size: 40px;
+      line-height: 50px;
       color: #000000;
     }
     h2.headline {
-      font-family: proxima-nova-1,proxima-nova-2, "proxima-nova-1", "proxima-nova-2", Tahoma, Helvetica, Verdana, sans-serif;
       font-size: 21px;
       color: #000000;
     }

@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 from cuba.utils.alias import tran as _
 
-MATCH_PK = '(?P<pk>[^/]+)'
+MATCH_PK = r'(?P<pk>[^/]+)'
+MATCH_SLUG = r'(?P<slug>[\-_0-9a-zA-Z\.]+)'
 
 # length of the models
 NAME_LENGTH = 32

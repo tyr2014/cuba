@@ -23,4 +23,15 @@ class Templatable(models.Model):
   template_name = models.CharField(_('模板名称'), max_length=const.NAME_LENGTH,
                                    help_text=_(''),
                                    blank=True, default='')
-  template_info = models.TextField(_('Pickle格式的模板参数'), help_text=_(''), blank=True, default='')
+  template_info = models.TextField(_('XML格式的模板参数'), help_text=_(''), blank=True, default='')
+
+  def get_template_info(self):
+    from cuba.vendors import xmltodict
+    if self.template_info:
+      try:
+        template_info = xmltodict.parse(self.template_info)
+      except Exception:
+        template_info = {}
+    else:
+      template_info = {}
+    return template_info

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import json
+from django.db.models.query_utils import Q
 from django.views.generic.detail import DetailView
 
 from django.views.generic.edit import CreateView
 from cuba.forms.accounts import UserCreateForm
 
 import logging
-from cuba.models.accounts import User
+from cuba.models.accounts import UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -23,21 +23,22 @@ class UserCreateView(CreateView):
 
 class UserDetailView(DetailView):
   template_name = 'accounts/user_detail.html'
-  model = User
-  context_object_name = 'user'
+  template_name_field = 'template_name'
+  model = UserProfile
+  context_object_name = 'profile'
+
+
+  def get_object(self, queryset=None):
+    slug = self.kwargs.get(self.slug_url_kwarg, None)
+    return UserProfile.objects.filter(Q(slug=slug)|Q(user_id=slug)).select_related(depth=1).get()
 
   def get_context_data(self, **kwargs):
     context = super(UserDetailView, self).get_context_data(**kwargs)
-    user = context['user']
-    profile = user.get_profile()
-    if profile.template_info:
-      try:
-        template_info = json.loads(profile.template_info)
-      except Exception:
-        template_info = {}
-    else:
-      template_info = {}
-    context['profile'] = profile
+    profile = context['profile']
+    user = profile.user
+
+    template_info = profile.get_template_info()
+    context['user'] = user
     context['activities'] = user.activity_set.all()
     context['orders'] = user.order_set.all()
     context['template_info'] = {
