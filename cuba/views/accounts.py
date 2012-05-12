@@ -41,7 +41,7 @@ class UserDetailView(DetailView):
     context['activities'] = user.activity_set.all()
     context['orders'] = user.order_set.all()
     context['template_info'] = {
-      'background': template_info.get('background', )
+      'style': template_info.get('style', ''),
     }
 
     return context

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User as DjangoUser
 from cuba.models.fields.fields import UpYunFileField
 from cuba.models.generics import TaggedItem
 from cuba.models.mixins.locatable import Locatable
+from cuba.models.mixins.templatable import Templatable
 from cuba.utils.alias import tran_lazy as _
 from cuba.utils import const
 
@@ -48,7 +49,7 @@ class User(DjangoUser):
 
 
 
-class UserProfile(Locatable):
+class UserProfile(Locatable, Templatable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_user_profile'
@@ -83,7 +84,7 @@ class UserProfile(Locatable):
                                help_text=_(''),
                                blank=True, default='')
 
-  template_info = models.TextField(_('JSON格式的模板参数'), help_text=_(''), blank=True, default='')
+
 
   tags = generic.GenericRelation(TaggedItem)
 

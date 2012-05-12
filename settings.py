@@ -94,8 +94,9 @@ SECRET_KEY = 'a+$v8w!3*mn=sc7-he#-8r)@wcqcc&ms-@0zac!ag26)ca7*ol'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-  'django.template.loaders.filesystem.Loader',
+  #'django.template.loaders.filesystem.Loader',
   'django.template.loaders.app_directories.Loader',
+  'dbtemplates.loader.Loader',
   #     'django.template.loaders.eggs.Loader',
   )
 
@@ -134,7 +135,7 @@ TEMPLATE_DIRS = (
   # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
   # Always use forward slashes, even on Windows.
   # Don't forget to use absolute paths, not relative paths.
-  os.path.join(PROJECT_HOME, 'templates'),
+  # os.path.join(PROJECT_HOME, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -159,6 +160,7 @@ INSTALLED_APPS = (
   'djangorestframework',  # for generating api
   'debug_toolbar',        # for debug purpose
   'djcelery',
+  'dbtemplates',
 )
 
 AUTH_PROFILE_MODULE = 'cuba.UserProfile'

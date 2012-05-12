@@ -10,6 +10,7 @@ from cuba.models.mixins.displayable import Displayable
 from cuba.models.mixins.fsmable import FSMable
 from cuba.models.mixins.locatable import Locatable
 from cuba.models.mixins.ownable import Ownable
+from cuba.models.mixins.templatable import Templatable
 from cuba.utils import const
 from cuba.utils.alias import tran_lazy as _
 
@@ -17,7 +18,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable):
+class Activity(Displayable, Ownable, Locatable, CacheableMixin, FSMable, Templatable):
   class Meta:
     app_label = 'cuba'
     db_table = 'cuba_activity'
