@@ -77,7 +77,8 @@ STATICFILES_DIRS = (
 # Put strings here, like "/home/html/static" or "C:/www/django/static".
 # Always use forward slashes, even on Windows.
 # Don't forget to use absolute paths, not relative paths.
-  os.path.join(PROJECT_HOME, 'vendors'),
+  os.path.join(PROJECT_HOME, 'vendors/bootstrap'),
+  os.path.join(PROJECT_HOME, 'vendors/common'),
 )
 
 # List of finder classes that know how to find static files in
@@ -121,7 +122,8 @@ MIDDLEWARE_CLASSES = (
   # Uncomment the next line for simple clickjacking protection:
   'django.middleware.clickjacking.XFrameOptionsMiddleware',
   'debug_toolbar.middleware.DebugToolbarMiddleware',
-  )
+  'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+)
 
 ROOT_URLCONF = 'urls'
 
@@ -147,6 +149,7 @@ INSTALLED_APPS = (
   # Uncomment the next line to enable admin documentation:
   # 'django.contrib.admindocs',
   'django.contrib.comments',
+  'django.contrib.flatpages',
 
   'cuba',
 

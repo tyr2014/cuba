@@ -10,6 +10,11 @@ from cuba.models.ratings import Rating, RatingEntry
 from cuba.models.videos import Video
 from cuba.models.places import Country, City
 
+
+class PhotoAdmin(admin.ModelAdmin):
+
+  list_filter = ('type',)
+
 admin.site.register(Activity)
 admin.site.register(Category)
 admin.site.register(CancelPolicy)
@@ -18,10 +23,11 @@ admin.site.register(Country)
 admin.site.register(Coupon)
 admin.site.register(Order)
 admin.site.register(OrderParticipant)
-admin.site.register(Photo)
+admin.site.register(Photo, PhotoAdmin)
 admin.site.register(Rating)
 admin.site.register(RatingEntry)
 admin.site.register(TaggedItem)
 admin.site.register(UserProfile)
 admin.site.register(Video)
+
 

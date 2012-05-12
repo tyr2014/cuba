@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from cuba.models.fields.fields import UpYunFileField, TitleField
+from cuba.models.managers.core import PhotoManager
 from cuba.models.mixins.ownable import Ownable
 from cuba.utils import const
 from cuba.models.activities import Activity
@@ -44,6 +45,8 @@ class Photo(Ownable):
   # management info
   # Not needed for using external storage
   #resize_done = models.BooleanField(default=False)
+
+  objects = PhotoManager()
 
   def __unicode__(self):
     if self.title:

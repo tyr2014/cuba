@@ -83,6 +83,8 @@ class UserProfile(Locatable):
                                help_text=_(''),
                                blank=True, default='')
 
+  template_info = models.TextField(_('JSON格式的模板参数'), help_text=_(''), blank=True, default='')
+
   tags = generic.GenericRelation(TaggedItem)
 
   def __unicode__(self):

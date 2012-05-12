@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load flatpages %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block content %}
+  {% get_flatpages '/help/' as help_pages %}
+  {{ flatpage.content }}
+  <div>
+    <h3>更多帮助信息</h3>
+    <ul>
+      {% for page in help_pages %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

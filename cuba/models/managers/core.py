@@ -103,3 +103,18 @@ class ActivityManager(DisplayableManager):
 
   def closed(self):
     return self.filter(fsm=const.ACTIVITY_STATE_CLOSED)
+
+class PhotoManager(Manager):
+  def _common_objects(self, type, author_id=None):
+    queryset = self.filter(type=type)
+    if author_id:
+      queryset = queryset.filter(author_id=author_id)
+    return queryset
+
+  def profile_backgrounds(self, author_id=None):
+    type=const.PHOTO_TYPE_PROFILE_BACKGROUND if not author_id else const.PHOTO_TYPE_PRIVATE_PROFILE_BACKGROUND
+    return self._common_objects(type=type, author_id=author_id)
+
+  def activity_backgrounds(self, author_id=None):
+    type=const.PHOTO_TYPE_ACTIVITY_BACKGROUND if not author_id else const.PHOTO_TYPE_PRIVATE_ACTIVITY_BACKGROUND
+    return self._common_objects(type=type, author_id=author_id)

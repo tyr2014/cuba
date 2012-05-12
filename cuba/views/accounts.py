@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import json
 from django.views.generic.detail import DetailView
 
 from django.views.generic.edit import CreateView
@@ -29,8 +30,18 @@ class UserDetailView(DetailView):
     context = super(UserDetailView, self).get_context_data(**kwargs)
     user = context['user']
     profile = user.get_profile()
+    if profile.template_info:
+      try:
+        template_info = json.loads(profile.template_info)
+      except Exception:
+        template_info = {}
+    else:
+      template_info = {}
     context['profile'] = profile
     context['activities'] = user.activity_set.all()
     context['orders'] = user.order_set.all()
+    context['template_info'] = {
+      'background': template_info.get('background', )
+    }
 
     return context
