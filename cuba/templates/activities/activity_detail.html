@@ -5,7 +5,7 @@
   <div class="row">
     <div class="span8">
       <div class="page-header">
-        <h1>{{ activity.title }} <small>{{ activity.start.date.isoformat }} ~ {{ activity.end.date.isoformat }}</small></h1>
+        <h1>{{ activity.title }} <br/><small>{{ activity.start.date.isoformat }} ~ {{ activity.end.date.isoformat }}</small></h1>
       </div>
       <div class="row">
         <div class="span3">
@@ -71,7 +71,7 @@
     <div class="span4">
       <div class="hero-unit">
         <a href="{% url user_detail profile.user_id %}"><img src="{{ profile.get_avatar }}" /></a>
-        <p>发布者：{{ profile.fullname }}</p>
+        <p>发布者：{{ profile.user.get_full_name }}</p>
         <blockquote><p>{{ profile.philosophy }}</p></blockquote>
 
       </div>
