@@ -6,7 +6,7 @@
   {{ template_info.style }}
 </style>
 {% endblock %}
-{% block bodyattr %}class="profilepage"{% endblock %}
+{% block bodyattr %}class="profilepage" id="id-body"{% endblock %}
 {% block content %}
 <div class="row">
   <div class="span6">
@@ -50,4 +50,25 @@
 </div>
 
 
+{% endblock %}
+
+
+{% block script %}
+  <script type="text/javascript">
+    $(function() {
+      var width = $(window).width();
+      var background = "{{ img_cdn_domain }}{{ template_info.image }}";
+      if (width <= 1024) {
+        background += '!1024';
+      } else if (width <= 1280) {
+        background += '!1280';
+      } else if (width <= 1440) {
+        background += '!1440';
+      }  else if (width <= 1680) {
+        background += '!1680';
+      }
+      console.log(background);
+      $('body').css('background-image', 'url(' + background + ')');
+    })
+  </script>
 {% endblock %}

@@ -195,7 +195,7 @@ CUSTOM_USER_MODEL = ('cuba', 'User')
 
 # upyun related settings
 USE_UPYUN = True
-UPYUN_BINDING_DOMAIN = 'http://api-test.b0.upaiyun.com/'
+UPYUN_BINDING_DOMAIN = config.get('hosts', 'photo_host')
 UPYUN_API_DOMAIN = 'v0.api.upyun.com'
 UPYUN_BUCKET = 'api-test'
 UPYUN_USERNAME = 'tukeq'

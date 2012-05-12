@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.conf import settings
 from django.db.models.query_utils import Q
 from django.views.generic.detail import DetailView
 
@@ -9,6 +10,7 @@ from cuba.forms.accounts import UserCreateForm
 
 import logging
 from cuba.models.accounts import UserProfile
+from cuba.utils import const
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +45,7 @@ class UserDetailView(DetailView):
     context['orders'] = user.order_set.all()
     context['template_info'] = {
       'style': template_info.get('style', ''),
+      'image': template_info.get('image', const.USER_PROFILE_BACKGROUND)
     }
-
+    context['img_cdn_domain'] = settings.IMG_CDN_DOMAIN
     return context

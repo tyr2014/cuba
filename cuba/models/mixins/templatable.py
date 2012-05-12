@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.utils.functional import lazy
 from cuba.utils import const
 from cuba.utils.alias import tran_lazy as _
 import logging
@@ -29,7 +28,7 @@ class Templatable(models.Model):
     from cuba.vendors import xmltodict
     if self.template_info:
       try:
-        template_info = xmltodict.parse(self.template_info)
+        template_info = xmltodict.parse(self.template_info)['info']
       except Exception:
         template_info = {}
     else:
