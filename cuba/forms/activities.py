@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+from django.forms.widgets import SelectMultiple
+import django_wysiwyg
 from cuba.utils.alias import tran as _
-from django.forms import Textarea, CheckboxSelectMultiple, SelectMultiple
+from django.forms import Textarea
 from fields.widgets import DateTimeWidget, AutocompleteWidget
 from cuba.models.activities import Activity
 from bootstrap.forms import Fieldset, BootstrapModelForm
@@ -12,20 +14,23 @@ TEXTAREA_ATTR = {'style':'width:800px;height:250px'}
 class ActivityDescriptionForm(BootstrapModelForm):
   class Meta:
     model = Activity
-    fields = ('title', 'description', 'physical_level', 'category', 'provided', 'required', 'activity_info')
+    fields = ('title', 'description', 'cover', 'physical_level', 'category', 'activity_info')
     widgets = {
-#      'category': SelectMultiple(),
+      'category': SelectMultiple(),
       'description': Textarea(attrs=TEXTAREA_ATTR),
-      'provided': Textarea(attrs=TEXTAREA_ATTR),
-      'required': Textarea(attrs=TEXTAREA_ATTR),
+      #'provided': Textarea(attrs=TEXTAREA_ATTR),
+      #'required': Textarea(attrs=TEXTAREA_ATTR),
       'activity_info': Textarea(attrs=TEXTAREA_ATTR)
     }
     layout = (
-      Fieldset(_('活动描述'), 'title', 'description'),
+      Fieldset(_('活动描述'), 'title', 'description', 'cover'),
       Fieldset(_('活动类别'), 'physical_level', 'category'),
-      Fieldset(_('前提条件'), 'provided', 'required'),
+      #Fieldset(_('前提条件'), 'provided', 'required'),
       Fieldset(_('活动详情'), 'activity_info')
     )
+
+  def clean_activity_info(self):
+    return django_wysiwyg.sanitize_html(self.cleaned_data['activity_info'])
 
 class ActivityAvailabilityForm(BootstrapModelForm):
   class Meta:
@@ -36,7 +41,7 @@ class ActivityAvailabilityForm(BootstrapModelForm):
       'start': DateTimeWidget(),
       'end': DateTimeWidget(),
       'cost_description': Textarea(attrs=TEXTAREA_ATTR),
-      'city': AutocompleteWidget(),
+      #'city': AutocompleteWidget(),
     }
     layout = (
       Fieldset(_('活动什么时候开始和结束?'), 'start', 'end'),

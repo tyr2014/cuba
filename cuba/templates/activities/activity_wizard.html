@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wysiwyg %}
+{% block head_more %}
+{% wysiwyg_setup %}
+{% endblock %}
 {% block content %}
   <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
   <form action="" method="post" class="form-horizontal">{% csrf_token %}
@@ -14,6 +18,7 @@
         {{ wizard.form }}
       {% endif %}
     </div>
+    {% wysiwyg_editor "id_0-activity_info" %}
     {% if wizard.steps.prev %}
       <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "返回第一步" %}</button>
       <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "返回上一步" %}</button>

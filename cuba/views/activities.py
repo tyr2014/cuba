@@ -29,8 +29,12 @@ class ActivityWizard(SessionWizardView):
         data.update(form.cleaned_data)
 
     data['author_id'] = self.request.user.pk
+    # TODO: make this cleaner
+    categories = data.pop('category')
     a = Activity(**data)
     a.save()
+    for category in categories:
+      a.category.add(category)
 
     return HttpResponseRedirect(get_url_by_conf('activity_list'))
 

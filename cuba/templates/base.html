@@ -23,7 +23,7 @@
 
     <link rel="icon" href="{% static "img/common/logo-icon.gif" %}" type="image/x-icon" />
     <link rel="shortcut-icon" href="{% static "img/common/logo-icon.gif" %}" type="image/x-icon" />
-
+    {% block head_more %}{% endblock %}
   </head>
   <body {% block bodyattr %}{% endblock %}>
     {% nav_menu request %}

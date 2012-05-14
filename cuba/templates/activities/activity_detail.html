@@ -56,7 +56,7 @@
 
         <dt>行程安排</dt>
         <dd>
-          <pre>{{ activity.activity_info }}</pre>
+          <pre>{{ activity.activity_info|safe }}</pre>
         </dd>
         <dt>地图</dt>
         <dd><img src="{{ activity.map.get_full_url }}" class="float-left" /></dd>

@@ -160,7 +160,10 @@ INSTALLED_APPS = (
   'debug_toolbar',        # for debug purpose
   'djcelery',
   'dbtemplates',
+  'django_wysiwyg',
 )
+
+DJANGO_WYSIWYG_FLAVOR = "ckeditor"
 
 AUTH_PROFILE_MODULE = 'cuba.UserProfile'
 
