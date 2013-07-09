@@ -17,6 +17,7 @@ eventlet
 fabric
 gunicorn
 hiredis
+html5lib
 ipython
 mmseg
 PIL

@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from django.forms.widgets import SelectMultiple
 import django_wysiwyg
+from django_wysiwyg.utils import sanitize_html5lib
 from cuba.utils.alias import tran as _
 from django.forms import Textarea
 from fields.widgets import DateTimeWidget, AutocompleteWidget
@@ -30,7 +31,7 @@ class ActivityDescriptionForm(BootstrapModelForm):
     )
 
   def clean_activity_info(self):
-    return django_wysiwyg.sanitize_html(self.cleaned_data['activity_info'])
+    return sanitize_html5lib(self.cleaned_data['activity_info'])
 
 class ActivityAvailabilityForm(BootstrapModelForm):
   class Meta:
